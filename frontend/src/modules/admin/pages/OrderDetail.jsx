@@ -531,7 +531,7 @@ const OrderDetail = () => {
                             {settings?.logoUrl ? (
                                 <img src={settings.logoUrl} alt="Logo" width="130" style={{ display: "inline-block", marginBottom: "16px" }} crossOrigin="anonymous" />
                             ) : (
-                                <div style={{ fontSize: "26px", fontWeight: "900", color: "#0f172a", marginBottom: "4px" }}>{settings?.appName || 'Eannadata Canteen'}</div>
+                                <div style={{ fontSize: "26px", fontWeight: "900", color: "#0f172a", marginBottom: "4px" }}>{settings?.appName || 'HareKrishna'}</div>
                             )}
                             <div style={{ fontSize: "10px", color: "#64748b", fontWeight: "800", textTransform: "uppercase", letterSpacing: "3px" }}>Official Tax Invoice</div>
                         </div>
@@ -673,7 +673,7 @@ const OrderDetail = () => {
                                 This is a system-generated commercial invoice. No physical signature required.
                             </div>
                             <div style={{ fontSize: "10px", color: "#94a3b8", marginTop: "5px" }}>
-                                {settings?.appName || 'Eannadata Canteen'} • Customer Support: {settings?.supportEmail || 'support@eannadata.com'}
+                                {settings?.appName || 'HareKrishna'} • Customer Support: {settings?.supportEmail || 'support@eannadata.com'}
                             </div>
                         </div>
                     </div>

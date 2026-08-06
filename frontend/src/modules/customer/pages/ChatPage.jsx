@@ -89,7 +89,7 @@ const ChatPage = () => {
   const { showToast } = useToast();
   const { setIsViewingSupportChat, setActiveTicketId, markTicketRead } = useSupportUnread();
 
-  const appName = settings?.appName || "eAnnadata canteen";
+  const appName = settings?.appName || "HareKrishna";
   const [logoFailed, setLogoFailed] = useState(false);
   const brandLogoUrl = String(settings?.logoUrl || settings?.faviconUrl || "").trim();
   const supportPhone = String(settings?.supportPhone || "").trim();

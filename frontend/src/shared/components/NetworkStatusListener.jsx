@@ -5,7 +5,7 @@ import { useSettings } from '@core/context/SettingsContext';
 
 const NetworkStatusListener = () => {
     const { settings } = useSettings();
-    const appName = settings?.appName || 'eAnnadata canteen';
+    const appName = settings?.appName || 'HareKrishna';
 
     const [isOffline, setIsOffline] = useState(!navigator.onLine);
     const [wasOffline, setWasOffline] = useState(false);

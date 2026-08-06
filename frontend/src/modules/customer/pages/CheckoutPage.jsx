@@ -118,7 +118,7 @@ const CheckoutPage = () => {
     return () => observer.disconnect();
   }, [isAuthenticated]);
 
-  const appName = settings?.appName || "eAnnadata canteen";
+  const appName = settings?.appName || "HareKrishna";
   const {
     savedAddresses: locationSavedAddresses,
     currentLocation,

@@ -187,7 +187,7 @@ const Dashboard = () => {
             onClick={() => navigate("/delivery/profile")}
             className="cursor-pointer">
             <p className="text-[10px] font-black text-brand-600 uppercase tracking-widest mb-0.5">
-              eannadata canteen delivery
+              HareKrishna delivery
             </p>
             <h2 className="ds-h2 leading-tight">
               {user?.name || "Delivery Partner"}

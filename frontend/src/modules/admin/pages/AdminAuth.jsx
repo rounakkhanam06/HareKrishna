@@ -25,7 +25,7 @@ const AdminAuth = () => {
     const { login } = useAuth();
     const { settings } = useSettings();
     const navigate = useNavigate();
-    const appName = settings?.appName || 'eAnnadata canteen';
+    const appName = settings?.appName || 'HareKrishna';
     const logoUrl = settings?.logoUrl || '';
 
     const [formData, setFormData] = useState({

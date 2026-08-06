@@ -6,7 +6,7 @@ import { useSettings } from '@core/context/SettingsContext';
 const AboutPage = () => {
     const navigate = useNavigate();
     const { settings } = useSettings();
-    const appName = settings?.appName || 'eAnnadata canteen';
+    const appName = settings?.appName || 'HareKrishna';
     return (
         <div className="min-h-screen bg-slate-50 font-sans pb-24">
             <div className="sticky top-0 z-30 bg-slate-50/95 backdrop-blur-sm px-4 pt-4 pb-3 border-b border-slate-200/60 mb-4 flex items-center gap-2">

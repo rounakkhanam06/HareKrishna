@@ -12,7 +12,7 @@ const PaymentStatusPage = () => {
     const navigate = useNavigate();
     const { showToast } = useToast();
     const { settings } = useSettings();
-    const appName = settings?.appName || "eAnnadata canteen";
+    const appName = settings?.appName || "HareKrishna";
     
     const merchantOrderId = searchParams.get("merchantOrderId");
     const [status, setStatus] = useState("verifying"); // verifying, success, failure, timeout

@@ -13,7 +13,7 @@ const InvoiceModal = ({ isOpen, onClose, order }) => {
 
     if (!order) return null;
 
-    const appName = settings?.appName || 'eAnnadata canteen';
+    const appName = settings?.appName || 'HareKrishna';
     const primaryColor = settings?.primaryColor || '#16a34a';
 
     // Lock body scroll while modal is open

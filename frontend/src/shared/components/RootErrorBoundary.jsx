@@ -7,7 +7,7 @@ const RootErrorBoundary = () => {
     const error = useRouteError();
     const navigate = useNavigate();
     const { settings } = useSettings();
-    const appName = settings?.appName || 'eAnnadata canteen';
+    const appName = settings?.appName || 'HareKrishna';
     console.error('Route Error:', error);
 
     let errorMessage = "An unexpected error occurred.";

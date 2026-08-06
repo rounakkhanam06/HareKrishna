@@ -12,7 +12,7 @@ import { deliveryApi } from "../../services/deliveryApi";
 const SafetyPrivacy = () => {
   const navigate = useNavigate();
   const { settings } = useSettings();
-  const appName = settings?.appName || "eAnnadata canteen";
+  const appName = settings?.appName || "HareKrishna";
 
   const { user, refreshUser } = useAuth();
   const [contacts, setContacts] = useState([]);

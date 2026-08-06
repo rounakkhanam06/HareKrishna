@@ -7,7 +7,7 @@ import { FaHandshake } from 'react-icons/fa6';
 const MobileFooterMessage = () => {
     const location = useLocation();
     const { settings } = useSettings();
-    const appName = settings?.appName || 'eAnnadata canteen';
+    const appName = settings?.appName || 'HareKrishna';
     const isHomePage = location.pathname === '/';
     return (
         <div className="md:hidden w-full flex flex-col items-center -mt-20 pt-0 pb-28 px-4 bg-transparent">

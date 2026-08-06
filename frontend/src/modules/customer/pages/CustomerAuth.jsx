@@ -82,7 +82,7 @@ const CustomerAuth = () => {
     const [otpFocused, setOtpFocused] = useState(true);
     const { login } = useAuth();
     const { settings } = useSettings();
-    const appName = settings?.appName || 'eAnnadata canteen';
+    const appName = settings?.appName || 'HareKrishna';
     const logoUrl = settings?.logoUrl || '';
 
     const [formData, setFormData] = useState(() => {

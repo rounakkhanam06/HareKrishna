@@ -6,7 +6,7 @@ import { useSettings } from "@core/context/SettingsContext";
 const PrivacyPage = () => {
   const navigate = useNavigate();
   const { settings } = useSettings();
-  const appName = settings?.appName || "eAnnadata canteen";
+  const appName = settings?.appName || "HareKrishna";
 
   return (
     <div className="min-h-screen bg-[#fcfaff] font-['Outfit'] pb-12 relative overflow-hidden">

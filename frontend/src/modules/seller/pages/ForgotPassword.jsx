@@ -11,7 +11,7 @@ const RESEND_COOLDOWN = 60;
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const { settings } = useSettings();
-  const appName = settings?.appName || "eAnnadata canteen";
+  const appName = settings?.appName || "HareKrishna";
 
   const [step, setStep] = useState(1); // 1 = email, 2 = OTP
   const [email, setEmail] = useState("");

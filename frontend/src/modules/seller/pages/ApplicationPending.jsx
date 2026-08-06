@@ -10,7 +10,7 @@ const ApplicationPending = () => {
   const { isAuthenticated, role, user, isLoading } = useAuth();
   const { settings } = useSettings();
 
-  const appName = settings?.appName || "eAnnadata canteen";
+  const appName = settings?.appName || "HareKrishna";
   const logoUrl = settings?.logoUrl || "";
 
   const isSuspended =

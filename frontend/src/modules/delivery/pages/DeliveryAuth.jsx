@@ -64,7 +64,7 @@ const clearDeliveryAuthSession = () => {
 const DeliveryAuth = () => {
   const navigate = useNavigate();
   const { settings } = useSettings();
-  const appName = settings?.appName || "eAnnadata canteen";
+  const appName = settings?.appName || "HareKrishna";
   const logoUrl = settings?.logoUrl || "";
   const { login } = useAuth();
 

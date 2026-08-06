@@ -29,7 +29,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { settings } = useSettings();
-  const appName = settings?.appName || "eAnnadata canteen";
+  const appName = settings?.appName || "HareKrishna";
   const [faqs, setFaqs] = useState([]);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [stats, setStats] = useState({ deliveries: 0 });

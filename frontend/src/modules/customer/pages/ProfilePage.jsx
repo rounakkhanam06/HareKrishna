@@ -23,7 +23,7 @@ const ProfilePage = () => {
     const navigate = useNavigate();
     const { user, role, logout } = useAuth();
     const { settings } = useSettings();
-    const appName = settings?.appName || 'eAnnadata canteen';
+    const appName = settings?.appName || 'HareKrishna';
     const [isTestingPush, setIsTestingPush] = useState(false);
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 

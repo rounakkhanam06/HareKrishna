@@ -220,7 +220,7 @@ const SidebarItem = ({
 
 const SidebarContent = ({ items, title, onClose, openMenu, handleToggle, hoveredIdx, setHoveredIdx }) => {
   const { settings } = useSettings();
-  const appName = settings?.appName || 'eAnnadata canteen';
+  const appName = settings?.appName || 'HareKrishna';
 
   return (
     <div className="flex flex-col h-full min-h-0">

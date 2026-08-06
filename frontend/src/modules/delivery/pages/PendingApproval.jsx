@@ -20,7 +20,7 @@ const PendingApproval = () => {
   const navigate = useNavigate();
   const { user, refreshUser, logout } = useAuth();
   const { settings } = useSettings();
-  const appName = settings?.appName || "eAnnadata Canteen";
+  const appName = settings?.appName || "HareKrishna";
   const [isChecking, setIsChecking] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
@@ -58,7 +58,7 @@ const PendingApproval = () => {
             <div className="h-10 w-10 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
               <Truck className="h-5 w-5" />
             </div>
-            <span className="font-black text-slate-900 tracking-tight text-lg">eAnnadata canteen delivery</span>
+            <span className="font-black text-slate-900 tracking-tight text-lg">HareKrishna delivery</span>
           </div>
           <button
             onClick={() => setShowLogoutConfirm(true)}

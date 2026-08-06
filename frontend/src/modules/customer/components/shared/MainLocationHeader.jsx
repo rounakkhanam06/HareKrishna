@@ -171,7 +171,7 @@ const MainLocationHeader = ({
   const { isOpen: isProductDetailOpen } = useProductDetail();
   const { cartCount } = useCart();
   const { settings } = useSettings();
-  const appName = settings?.appName || "eAnnadata canteen";
+  const appName = settings?.appName || "HareKrishna";
   const logoUrl = settings?.logoUrl || LogoImage;
   const navigate = useNavigate();
 

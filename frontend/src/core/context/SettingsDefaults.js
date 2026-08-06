@@ -1,6 +1,6 @@
 /** Default fallbacks when settings are not yet loaded or API fails */
 export const DEFAULT_SETTINGS = {
-  appName: "eAnnadata canteen",
+  appName: "HareKrishna",
   supportEmail: "",
   supportPhone: "",
   currencySymbol: "\u20B9",

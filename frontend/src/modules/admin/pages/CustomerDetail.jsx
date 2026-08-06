@@ -220,7 +220,7 @@ const CustomerDetail = () => {
             setIsSendingNotif(true);
             const { data } = await adminUsersApi.sendUserNotification(id, {
                 message: notifMessage.trim(),
-                title: 'Notice from eAnnadata Canteen'
+                title: 'Notice from HareKrishna'
             });
             if (data.success) {
                 showToast('Notification sent to customer successfully!', 'success');

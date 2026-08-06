@@ -6,7 +6,7 @@ import { useSettings } from '@core/context/SettingsContext';
 const TermsPage = () => {
     const navigate = useNavigate();
     const { settings } = useSettings();
-    const appName = settings?.appName || 'eAnnadata canteen';
+    const appName = settings?.appName || 'HareKrishna';
     const companyName = settings?.companyName || appName;
     return (
         <div className="min-h-screen bg-slate-50 font-sans pb-10">

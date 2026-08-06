@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link id="dynamic-favicon" rel="icon" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+    rel="stylesheet">
+  <title>Eannadata canteen - Fresh Grocery Delivery</title>
+  <style>
+    /* Google Translate Clean Overrides - Completely Hide Top White Banner */
+    .goog-te-banner-frame,
+    .goog-te-banner-frame.skiptranslate,
+    iframe.skiptranslate,
+    .goog-te-balloon-frame,
+    #goog-gt-tt,
+    .goog-te-spinner-pos {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      height: 0 !important;
+      width: 0 !important;
+      pointer-events: none !important;
+    }
+    html {
+      top: 0px !important;
+      margin-top: 0px !important;
+    }
+    body {
+      top: 0px !important;
+      position: static !important;
+      margin-top: 0px !important;
+      padding-top: 0px !important;
+    }
+    body > .skiptranslate {
+      display: none !important;
+      height: 0 !important;
+      overflow: hidden !important;
+    }
+    /* Hide the black bar Google Translate sometimes injects */
+    #google_translate_element,
+    #google_translate_element2 {
+      display: none !important;
+      height: 0 !important;
+    }
+    .goog-te-gadget {
+      display: none !important;
+      height: 0 !important;
+    }
+    .goog-text-highlight {
+      background-color: transparent !important;
+      box-shadow: none !important;
+    }
+    
+    /* Pre-hide content when Google Translate is initializing to prevent English flash (FOUC) */
+    html.translate-pending #root {
+      opacity: 0 !important;
+      transition: opacity 0.2s ease-in-out;
+    }
+    html:not(.translate-pending) #root {
+      opacity: 1;
+      transition: opacity 0.2s ease-in-out;
+    }
+  </style>
+  <script>
+    (function () {
+      try {
+        var cookieMatch = document.cookie.match(/(?:^|; )googtrans=([^;]*)/);
+        var activeLang = localStorage.getItem("app_language");
+        var isTranslated = (cookieMatch && cookieMatch[1] && cookieMatch[1] !== "/en/en") || (activeLang && activeLang !== "en");
+
+        if (isTranslated) {
+          document.documentElement.classList.add("translate-pending");
+
+          var revealPage = function () {
+            document.documentElement.classList.remove("translate-pending");
+          };
+
+          // Reveal as soon as Google Translate modifies the HTML element class/font/attribute or after 1s safety fallback
+          var observer = new MutationObserver(function (mutations) {
+            if (document.documentElement.classList.contains("translated-ltr") || document.documentElement.classList.contains("translated-rtl") || document.querySelector(".goog-te-combo")) {
+              revealPage();
+              observer.disconnect();
+            }
+          });
+
+          observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+
+          // Fallback timeout in case translation takes longer or fails
+          setTimeout(revealPage, 1000);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>

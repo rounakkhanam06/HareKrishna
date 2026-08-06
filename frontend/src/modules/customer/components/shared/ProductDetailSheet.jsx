@@ -357,36 +357,8 @@ const ProductDetailSheet = () => {
     const cleanDesc = cleanDescription(selectedProduct?.description);
 
     // ── Subsidy / pricing calculations (same logic as ProductCard) ──────────
-    const isSubsidyUser = user?.isSubsidyEligible === true && user?.["eAnnadata Card Status"] === "yes";
-    const subsidyRate = (() => {
-        if (!isSubsidyUser) return 0;
-        const regDate = user?.["eAnnadata Card Registration Date"] || user?.["Registration Date"];
-        if (!regDate) return 0;
-
-        const reg = new Date(regDate);
-        const now = new Date();
-        let years = now.getFullYear() - reg.getFullYear();
-        let months = now.getMonth() - reg.getMonth();
-        if (months < 0) {
-            years--;
-            months += 12;
-        }
-        const yearsElapsed = years + months / 12;
-
-        const t1Years = settings?.dbtTier1Years ?? 1;
-        const t1Months = settings?.dbtTier1Months ?? 0;
-        const t1Rate = Number(settings?.dbtTier1Rate ?? settings?.eAnnadataDiscount1Year ?? 10);
-        const t1Threshold = t1Years + t1Months / 12;
-
-        const t2Years = settings?.dbtTier2Years ?? 2;
-        const t2Months = settings?.dbtTier2Months ?? 0;
-        const t2Rate = Number(settings?.dbtTier2Rate ?? settings?.eAnnadataDiscount2Years ?? 20);
-        const t2Threshold = t2Years + t2Months / 12;
-
-        if (yearsElapsed >= t2Threshold) return t2Rate;
-        if (yearsElapsed >= t1Threshold) return t1Rate;
-        return 0;
-    })();
+    const isSubsidyUser = false;
+    const subsidyRate = 0;
     const mrpPrice = selectedVariant
         ? Number(selectedVariant.price || 0)
         : Number(selectedProduct.originalPrice || selectedProduct.price || 0);
@@ -400,7 +372,7 @@ const ProductDetailSheet = () => {
     const dbtSavings = isSubsidyUser && subsidyRate > 0 ? Math.round(payNowPrice * subsidyRate / 100) : 0;
     const netEffectivePrice = payNowPrice - dbtSavings;
     const totalSubsidyPct = instantDiscountPct + (isSubsidyUser && subsidyRate > 0 ? subsidyRate : 0);
-    const showSubsidy = true;
+    const showSubsidy = false;
     const displayWeight = selectedVariant && selectedVariant.name && selectedVariant.name !== "Default"
         ? selectedVariant.name
         : selectedProduct.weight;

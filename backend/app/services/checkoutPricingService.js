@@ -115,10 +115,7 @@ function buildAggregateBreakdown(sellerBreakdowns = []) {
     codPendingAmount: sumField(sellerBreakdowns, "codPendingAmount"),
     distanceKmActual: sumField(sellerBreakdowns, "distanceKmActual"),
     distanceKmRounded: sumField(sellerBreakdowns, "distanceKmRounded"),
-    // DBT Subsidy — sum the rupee amount across sellers; take the percent
-    // from the first seller breakdown (all items share the same customer tier).
-    subsidyDiscount: sumField(sellerBreakdowns, "subsidyDiscount"),
-    subsidyDiscountPercent: Number(sellerBreakdowns[0]?.subsidyDiscountPercent ?? 0),
+
     snapshots: {
       perSeller: sellerBreakdowns.map((row, index) => ({
         index,

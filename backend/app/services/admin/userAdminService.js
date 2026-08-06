@@ -7,27 +7,6 @@ export async function getUsersData({ page, limit, skip, customerType }) {
 
   let roleAndTypeMatch = { $or: matchConditions };
 
-  if (customerType === "dbt") {
-    roleAndTypeMatch = {
-      $and: [
-        { $or: matchConditions },
-        { isSubsidyEligible: true }
-      ]
-    };
-  } else if (customerType === "app") {
-    roleAndTypeMatch = {
-      $and: [
-        { $or: matchConditions },
-        {
-          $or: [
-            { isSubsidyEligible: false },
-            { isSubsidyEligible: { $exists: false } },
-            { isSubsidyEligible: null }
-          ]
-        }
-      ]
-    };
-  }
 
   const pipeline = [
     { $match: roleAndTypeMatch },
@@ -42,8 +21,7 @@ export async function getUsersData({ page, limit, skip, customerType }) {
     {
       $project: {
         id: { $toString: "$_id" },
-        name: { $ifNull: ["$Farmer Name", "$name", "Unnamed Customer"] },
-        "Farmer Name": 1,
+        name: { $ifNull: ["$name", "Unnamed Customer"] },
         "Mobile No": 1,
         "eAnnadata Card Number": 1,
         "eAnnadata Card Status": 1,
@@ -61,7 +39,7 @@ export async function getUsersData({ page, limit, skip, customerType }) {
         "A/C Number": 1,
         "Ifsc Code": 1,
         "Registration Date": 1,
-        isSubsidyEligible: 1,
+
         email: 1,
         phone: 1,
         joinedDate: "$createdAt",
@@ -74,7 +52,7 @@ export async function getUsersData({ page, limit, skip, customerType }) {
         avatar: {
           $concat: [
             "https://api.dicebear.com/7.x/avataaars/svg?seed=",
-            { $ifNull: ["$Farmer Name", "$name", "Customer"] },
+            { $ifNull: ["$name", "Customer"] },
           ],
         },
       },
@@ -123,8 +101,7 @@ export async function getUserByIdData(id) {
     {
       $project: {
         id: { $toString: "$_id" },
-        name: { $ifNull: ["$Farmer Name", "$name", "Unnamed Customer"] },
-        "Farmer Name": 1,
+        name: { $ifNull: ["$name", "Unnamed Customer"] },
         "Mobile No": 1,
         "eAnnadata Card Number": 1,
         "eAnnadata Card Status": 1,
@@ -143,7 +120,7 @@ export async function getUserByIdData(id) {
         "Ifsc Code": 1,
         "Registration Date": 1,
 
-        isSubsidyEligible: 1,
+
         gender: 1,
         email: 1,
         phone: 1,
@@ -158,7 +135,7 @@ export async function getUserByIdData(id) {
         avatar: {
           $concat: [
             "https://api.dicebear.com/7.x/avataaars/svg?seed=",
-            { $ifNull: ["$Farmer Name", "$name", "Customer"] },
+            { $ifNull: ["$name", "Customer"] },
           ],
         },
         addresses: { $ifNull: ["$addresses", []] },

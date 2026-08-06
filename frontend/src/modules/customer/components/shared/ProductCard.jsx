@@ -104,36 +104,8 @@ const ProductCard = React.memo(
     );
 
     // ── Pricing calculations ───────────────────────────────────────────────
-    const isSubsidyUser = user?.isSubsidyEligible === true && user?.["eAnnadata Card Status"] === "yes";
-    const subsidyRate = (() => {
-      if (!isSubsidyUser) return 0;
-      const regDate = user?.["eAnnadata Card Registration Date"] || user?.["Registration Date"];
-      if (!regDate) return 0;
-
-      const reg = new Date(regDate);
-      const now = new Date();
-      let years = now.getFullYear() - reg.getFullYear();
-      let months = now.getMonth() - reg.getMonth();
-      if (months < 0) {
-        years--;
-        months += 12;
-      }
-      const yearsElapsed = years + months / 12;
-
-      const t1Years = settings?.dbtTier1Years ?? 1;
-      const t1Months = settings?.dbtTier1Months ?? 0;
-      const t1Rate = Number(settings?.dbtTier1Rate ?? settings?.eAnnadataDiscount1Year ?? 10);
-      const t1Threshold = t1Years + t1Months / 12;
-
-      const t2Years = settings?.dbtTier2Years ?? 2;
-      const t2Months = settings?.dbtTier2Months ?? 0;
-      const t2Rate = Number(settings?.dbtTier2Rate ?? settings?.eAnnadataDiscount2Years ?? 20);
-      const t2Threshold = t2Years + t2Months / 12;
-
-      if (yearsElapsed >= t2Threshold) return t2Rate;
-      if (yearsElapsed >= t1Threshold) return t1Rate;
-      return 0;
-    })();
+    const isSubsidyUser = false;
+    const subsidyRate = 0;
 
     const mrpPrice = Number(product.originalPrice || product.price || 0);
     const payNowPrice = Number(product.price || 0);
@@ -154,7 +126,7 @@ const ProductCard = React.memo(
     const isOutOfStock = product.stock === 0 || (product.stock !== undefined && product.stock <= 0);
 
     // Show breakdown for ALL card sizes and users (including guests)
-    const showBreakdown = true;
+    const showBreakdown = false;
 
     const handleNotifyMe = React.useCallback(
       async (e) => {
@@ -234,23 +206,23 @@ const ProductCard = React.memo(
         {/* ── Image section ── */}
         <div className="relative">
           {/* Top badge */}
-          {totalSubsidyPct > 0 ? (
-            <div className={cn(
-              "absolute z-10 text-white font-[900] rounded-md shadow-md uppercase tracking-wider flex items-center gap-0.5 bg-[#153628]",
-              compact ? "top-2 left-2 px-1.5 py-0.5 text-[7px]" : "top-2 left-2 px-2 py-1 text-[8px] sm:top-3 sm:left-3 sm:text-[9px]",
-            )}>
-              ⚡ {totalSubsidyPct}% upto subsidy
+          {instantDiscountPct > 0 ? (
+            <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">
+              <span className={cn(
+                "bg-red-500 text-white font-black rounded-lg shadow-md uppercase tracking-wide flex items-center justify-center border-[1.5px] border-white/20",
+                compact ? "text-[8px] px-1.5 py-0.5" : "text-[10px] px-2 py-1"
+              )}>
+              ⚡ {instantDiscountPct}% off
+              </span>
             </div>
-          ) : (
-            (badge || product.discount || product.originalPrice > product.price) && (
+          ) : (badge || product.discount || product.originalPrice > product.price) ? (
               <div className={cn(
                 "absolute z-10 bg-primary text-primary-foreground font-[900] rounded-md shadow-sm uppercase tracking-wider flex items-center justify-center",
                 compact ? "top-2 left-2 px-1.5 py-0.5 text-[7px]" : "top-2 left-2 px-1 py-0.5 text-[7px] sm:top-3 sm:left-3 sm:px-2 sm:py-1 sm:text-[9px]",
               )}>
                 {badge || product.discount || `${instantDiscountPct}% OFF`}
               </div>
-            )
-          )}
+          ) : null}
 
           {/* Wishlist button */}
           <button
@@ -392,14 +364,7 @@ const ProductCard = React.memo(
                 </div>
               </div>
 
-              {/* DBT Subsidy row */}
-              <div className={cn("flex items-center justify-between gap-1 border-t border-gray-100 min-w-0", compact ? "px-1 py-0.5" : "px-2 py-1")}>
-                <span className={cn("text-blue-600 font-black truncate shrink-0", compact ? "text-[8px]" : "text-[8.5px]")}>🏛 DBT Subsidy</span>
-                <div className="flex items-center gap-0.5 shrink-0">
-                  <span className={cn("text-blue-600 font-black", compact ? "text-[8px]" : "text-[8.5px]")}>₹{displayDbtSavings}</span>
-                  <span className={cn("font-black bg-blue-100 text-blue-600 rounded uppercase tracking-tighter shrink-0", compact ? "text-[7px] px-0.5 py-0.2" : "text-[7.5px] px-1 py-0.5")}>{(isSubsidyUser && subsidyRate > 0) ? "Later" : `Upto ${displayDbtRate}%`}</span>
-                </div>
-              </div>
+
 
               {/* Net Effective Price row */}
               {dbtSavings > 0 && (

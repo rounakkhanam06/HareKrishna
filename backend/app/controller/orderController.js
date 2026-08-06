@@ -1039,44 +1039,6 @@ const completeReturnAndRefundLegacy = async (order) => {
         reference: `REF-WALLET-${order.orderId}`,
         meta: { orderId: order._id, type: "return_wallet" }
       });
-
-      // Debit locked subsidy if any returned items have locked subsidies
-      let subsidyToCancel = 0;
-      if (Array.isArray(order.returnItems)) {
-        for (const retItem of order.returnItems) {
-          const itemIndex = retItem.itemIndex;
-          if (itemIndex != null && order.items[itemIndex]) {
-            const origItem = order.items[itemIndex];
-            if (origItem.subsidyStatus === "locked") {
-              subsidyToCancel = roundCurrency(subsidyToCancel + (origItem.subsidyDiscount || 0));
-              origItem.subsidyStatus = "cancelled";
-            }
-          }
-        }
-      }
-
-      if (subsidyToCancel > 0) {
-        try {
-          const { debitWallet } = await import("../services/finance/walletService.js");
-          await debitWallet({
-            ownerType: "CUSTOMER",
-            ownerId: order.customer,
-            amount: subsidyToCancel,
-            bucket: "lockedSubsidy",
-            ledgerType: "DBT_SUBSIDY_CANCELLED",
-            ledgerReference: `RET-CANCEL-DBT-${order.orderId}`,
-            ledgerDescription: `DBT subsidy cancelled for returned items of order ${order.orderId}`,
-            orderId: order._id,
-            idempotencyKey: `RET-CUST-DBT-CANCEL-${order._id}`,
-          });
-        } catch (error) {
-          logger.warn("Wallet debit failed for customer locked subsidy", {
-            scope: "ReturnFinanceLegacy",
-            customerId: order.customer,
-            error: error.message,
-          });
-        }
-      }
     }
   }
 

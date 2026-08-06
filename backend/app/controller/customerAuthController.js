@@ -64,8 +64,6 @@ export const signupCustomer = async (req, res) => {
             isVerified: false,
             isActive: true,
             role: "user",
-            isSubsidyEligible: false,
-            "eAnnadata Card Status": "no",
         };
 
         if (!customer) {
@@ -151,19 +149,7 @@ export const getCustomerProfile = async (req, res) => {
         const wallet = await Wallet.findOne({ ownerId: customer._id, ownerType: "CUSTOMER" });
         const orderCount = await Order.countDocuments({ customer: customer._id });
 
-        const releasedLedgers = await LedgerEntry.find({
-            actorId: customer._id,
-            type: { $in: ["DBT_SUBSIDY_CREDITED", "DBT_SUBSIDY_RELEASED"] },
-            status: "COMPLETED"
-        });
-        const dbtSubsidy = releasedLedgers.reduce((sum, entry) => sum + (entry.amount || 0), 0);
-        const pendingSubsidy = wallet ? (wallet.lockedSubsidyBalance || 0) : 0;
-
         customerObj.orderCount = orderCount;
-        customerObj.pendingSubsidy = pendingSubsidy;
-        customerObj.dbtSubsidy = dbtSubsidy;
-        customerObj.totalSubsidy = dbtSubsidy + pendingSubsidy;
-        customerObj.lockedSubsidyBalance = pendingSubsidy;
 
         return handleResponse(res, 200, "Profile fetched successfully", customerObj);
     } catch (error) {

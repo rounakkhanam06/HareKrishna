@@ -162,29 +162,7 @@ const settingSchema = new mongoose.Schema(
             },
         },
 
-        // E-Anndata Card Discount Tiers (legacy — kept for backward compat)
-        eAnnadataDiscount1Year: {
-            type: Number,
-            default: 10,
-            min: 0,
-            max: 100,
-        },
-        eAnnadataDiscount2Years: {
-            type: Number,
-            default: 20,
-            min: 0,
-            max: 100,
-        },
 
-        // DBT Subsidy Tier Config — All admin-configurable
-        // Tier 1: eligible after dbtTier1Years years + dbtTier1Months months
-        dbtTier1Years:  { type: Number, default: 1,  min: 0 },
-        dbtTier1Months: { type: Number, default: 0,  min: 0, max: 11 },
-        dbtTier1Rate:   { type: Number, default: 10, min: 0, max: 100 },
-        // Tier 2: eligible after dbtTier2Years years + dbtTier2Months months
-        dbtTier2Years:  { type: Number, default: 2,  min: 0 },
-        dbtTier2Months: { type: Number, default: 0,  min: 0, max: 11 },
-        dbtTier2Rate:   { type: Number, default: 20, min: 0, max: 100 },
     },
     {
         timestamps: true,

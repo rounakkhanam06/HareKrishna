@@ -128,7 +128,7 @@ export async function fetchSellerOrdersPage({
       .sort(sortOrder)
       .skip(skip)
       .limit(limit)
-      .populate("customer", "name Farmer Name phone email")
+      .populate("customer", "name phone email")
       .populate("items.product", "name mainImage price salePrice")
       .populate("deliveryBoy", "name phone")
       .populate("seller", "shopName name")

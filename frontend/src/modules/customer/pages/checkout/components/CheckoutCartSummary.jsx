@@ -58,18 +58,11 @@ const CheckoutCartSummary = React.memo(function CheckoutCartSummary({
                   Variant: {item.variantName || item.variantSku}
                 </p>
               )}
-              {(hasDiscount || isSubsidyUser) && (
+              {hasDiscount && (
                 <div className="flex flex-wrap gap-1 mb-1.5">
-                  {hasDiscount && (
-                    <span className="inline-block text-[9px] bg-[#153628]/10 text-[#153628] border border-[#153628]/20 px-1.5 py-0.5 rounded font-black tracking-wider uppercase">
-                      🌾 Instant Subsidy
-                    </span>
-                  )}
-                  {isSubsidyUser && (
-                    <span className="inline-block text-[9px] bg-blue-50 text-blue-700 border border-blue-200 px-1.5 py-0.5 rounded font-black tracking-wider uppercase">
-                      🌾 DBT ({subsidyDiscountPercent || 0}% Wallet Credit)
-                    </span>
-                  )}
+                  <span className="inline-block text-[9px] bg-red-100 text-red-600 border border-red-200 px-1.5 py-0.5 rounded font-black tracking-wider uppercase">
+                    ⚡ Instant Discount
+                  </span>
                 </div>
               )}
               <button

@@ -32,10 +32,7 @@ const userSchema = new mongoose.Schema(
             trim: true,
         },
 
-        "Farmer Name": {
-            type: String,
-            trim: true,
-        },
+
 
         email: {
             type: String,
@@ -58,92 +55,7 @@ const userSchema = new mongoose.Schema(
             trim: true,
         },
 
-        "eAnnadata Card Number": {
-            type: String,
-            unique: true,
-            sparse: true,
-            trim: true,
-        },
 
-        "eAnnadata Card Status": {
-            type: String,
-            enum: ["no", "pending", "yes", "rejected"],
-            default: "no",
-        },
-
-        "eAnnadata Card Image": {
-            type: String,
-        },
-
-        "eAnnadata Card Registration Date": {
-            type: Date,
-        },
-
-        "Father/Mother/Husband": {
-            type: String,
-            trim: true,
-        },
-
-        "Date Of Birth": {
-            type: Date,
-        },
-
-        gender: {
-            type: String,
-            enum: ["Male", "Female", "Other"],
-            default: "Other",
-        },
-
-        "Pin Code": {
-            type: String,
-            trim: true,
-        },
-
-        "State Name": {
-            type: String,
-            trim: true,
-        },
-
-        "District Name": {
-            type: String,
-            trim: true,
-        },
-
-        "Block Name": {
-            type: String,
-            trim: true,
-        },
-
-        "Village Name": {
-            type: String,
-            trim: true,
-        },
-
-        "A/C Holder Name": {
-            type: String,
-            trim: true,
-        },
-
-        "Bank Name": {
-            type: String,
-            trim: true,
-        },
-
-        "A/C Number": {
-            type: String,
-            trim: true,
-        },
-
-        "Ifsc Code": {
-            type: String,
-            uppercase: true,
-            trim: true,
-        },
-
-        "Registration Date": {
-            type: Date,
-            default: Date.now,
-        },
 
 
         status: {
@@ -157,11 +69,7 @@ const userSchema = new mongoose.Schema(
             ref: "Admin",
         },
 
-        // DBT Subsidy — only true for admin-added farmers (never for self-registered customers)
-        isSubsidyEligible: {
-            type: Boolean,
-            default: false,
-        },
+
 
         password: {
             type: String,
@@ -261,11 +169,7 @@ userSchema.pre("validate", function(next) {
         this.phone = normalizePhoneNumber(this.phone);
         this["Mobile No"] = this.phone;
     }
-    if (this["Farmer Name"]) {
-        this.name = this["Farmer Name"];
-    } else if (this.name) {
-        this["Farmer Name"] = this.name;
-    }
+
     next();
 });
 

@@ -374,7 +374,7 @@ const CustomerAuth = () => {
                                 >
                                     <div className="space-y-1 text-center">
                                         <h3 className="text-xl font-black text-gray-900 tracking-tight">
-                                            {isLogin ? 'Welcome to Canteen' : 'Create Account'}
+                                            {isLogin ? 'Welcome to HareKrishna' : 'Create Account'}
                                         </h3>
                                         <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider leading-relaxed">
                                             {isLogin 

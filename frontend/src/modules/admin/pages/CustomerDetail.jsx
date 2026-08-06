@@ -66,73 +66,13 @@ const CustomerDetail = () => {
     const [customer, setCustomer] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    const subsidyStatus = useMemo(() => {
-        if (!customer) return { eligible: false, rate: 0, text: 'No customer data loaded' };
-        if (!customer.isSubsidyEligible) return { eligible: false, rate: 0, text: 'Self-registered or regular customer (No DBT subsidy)' };
-        const regDate = customer["eAnnadata Card Registration Date"] || customer["Registration Date"];
-        if (!regDate) return { eligible: true, rate: 0, text: 'Pending (Missing card registration date)' };
 
-        const reg = new Date(regDate);
-        const now = new Date();
-        let years = now.getFullYear() - reg.getFullYear();
-        let months = now.getMonth() - reg.getMonth();
-        if (months < 0) {
-            years--;
-            months += 12;
-        }
-        const yearsElapsed = years + months / 12;
-
-        const t1Years = settings?.dbtTier1Years ?? 1;
-        const t1Months = settings?.dbtTier1Months ?? 0;
-        const t1Rate = settings?.dbtTier1Rate ?? settings?.eAnnadataDiscount1Year ?? 10;
-        const t1Threshold = t1Years + t1Months / 12;
-
-        const t2Years = settings?.dbtTier2Years ?? 2;
-        const t2Months = settings?.dbtTier2Months ?? 0;
-        const t2Rate = settings?.dbtTier2Rate ?? settings?.eAnnadataDiscount2Years ?? 20;
-        const t2Threshold = t2Years + t2Months / 12;
-
-        let currentRate = 0;
-        let tierText = 'No Subsidy (Tier 0)';
-        if (yearsElapsed >= t2Threshold) {
-            currentRate = t2Rate;
-            tierText = `Tier 2 (${t2Rate}% Discount)`;
-        } else if (yearsElapsed >= t1Threshold) {
-            currentRate = t1Rate;
-            tierText = `Tier 1 (${t1Rate}% Discount)`;
-        } else {
-            tierText = `Below Tier 1 (0% Discount)`;
-        }
-
-        return {
-            eligible: true,
-            years,
-            months,
-            rate: currentRate,
-            tierText,
-            text: `Registration: ${new Date(regDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}`
-        };
-    }, [customer, settings]);
     const [orders, setOrders] = useState([]);
 
     const [editForm, setEditForm] = useState({
         "Farmer Name": '',
         "Mobile No": '',
-        email: '',
-        "eAnnadata Card Number": '',
-        "eAnnadata Card Registration Date": '',
-        "Father/Mother/Husband": '',
-        "Date Of Birth": '',
-        gender: 'Male',
-        "Pin Code": '',
-        "State Name": '',
-        "District Name": '',
-        "Block Name": '',
-        "Village Name": '',
-        "A/C Holder Name": '',
-        "Bank Name": '',
-        "A/C Number": '',
-        "Ifsc Code": ''
+        email: ''
     });
 
     const fetchCustomerDetails = async () => {
@@ -146,21 +86,7 @@ const CustomerDetail = () => {
                 setEditForm({
                     "Farmer Name": customerData["Farmer Name"] || customerData.name || '',
                     "Mobile No": customerData["Mobile No"] || customerData.phone || '',
-                    email: customerData.email || '',
-                    "eAnnadata Card Number": customerData["eAnnadata Card Number"] || '',
-                    "eAnnadata Card Registration Date": (customerData["eAnnadata Card Registration Date"] || customerData["Registration Date"]) ? new Date(customerData["eAnnadata Card Registration Date"] || customerData["Registration Date"]).toISOString().split('T')[0] : '',
-                    "Father/Mother/Husband": customerData["Father/Mother/Husband"] || '',
-                    "Date Of Birth": customerData["Date Of Birth"] ? customerData["Date Of Birth"].split('T')[0] : '',
-                    gender: customerData.gender || 'Male',
-                    "Pin Code": customerData["Pin Code"] || '',
-                    "State Name": customerData["State Name"] || '',
-                    "District Name": customerData["District Name"] || '',
-                    "Block Name": customerData["Block Name"] || '',
-                    "Village Name": customerData["Village Name"] || '',
-                    "A/C Holder Name": customerData["A/C Holder Name"] || '',
-                    "Bank Name": customerData["Bank Name"] || '',
-                    "A/C Number": customerData["A/C Number"] || '',
-                    "Ifsc Code": customerData["Ifsc Code"] || ''
+                    email: customerData.email || ''
                 });
             }
         } catch (error) {
@@ -194,11 +120,6 @@ const CustomerDetail = () => {
             const capitalizedForm = {
                 ...editForm,
                 "Farmer Name": capitalizeText(editForm["Farmer Name"]),
-                "Father/Mother/Husband": capitalizeText(editForm["Father/Mother/Husband"]),
-                "State Name": capitalizeText(editForm["State Name"]),
-                "District Name": capitalizeText(editForm["District Name"]),
-                "Block Name": capitalizeText(editForm["Block Name"]),
-                "Village Name": capitalizeText(editForm["Village Name"])
             };
             const { data } = await adminApi.updateUser(id, capitalizedForm);
             if (data.success) {
@@ -254,22 +175,7 @@ const CustomerDetail = () => {
         }
     };
 
-    const handleVerifyCard = async (action) => {
-        try {
-            const { data } = await adminUsersApi.verifyUserCard(id, action);
-            if (data.success) {
-                showToast(
-                    action === 'approve' ? 'Card approved! Customer now has eAnnadata benefits.' : 'Card rejected.',
-                    action === 'approve' ? 'success' : 'warning'
-                );
-                fetchCustomerDetails();
-            } else {
-                showToast(data.message || 'Operation failed', 'error');
-            }
-        } catch (error) {
-            showToast(error.response?.data?.message || 'Error processing card verification', 'error');
-        }
-    };
+
 
     const handleSaveNotes = () => {
         showToast('Internal CRM notes updated', 'info');
@@ -434,144 +340,27 @@ const CustomerDetail = () => {
                     <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl p-6">
                         <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest mb-6 flex items-center gap-2">
                             <User className="h-4 w-4 text-brand-500" />
-                            eAnnadata Identity & Family details
+                            Customer Details
                         </h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6 text-sm">
                             <div className="border-b border-slate-50 pb-2">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Farmer Name</p>
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Name</p>
                                 <p className="font-bold text-slate-800 mt-0.5">{customer["Farmer Name"] || customer.name || 'N/A'}</p>
                             </div>
                             <div className="border-b border-slate-50 pb-2">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">eAnnadata Card Number</p>
-                                <p className="font-bold text-brand-600 mt-0.5">{customer["eAnnadata Card Number"] || 'N/A'}</p>
-                            </div>
-                            <div className="border-b border-slate-50 pb-2 md:col-span-2">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Father/Mother/Husband</p>
-                                <p className="font-bold text-slate-800 mt-0.5">{customer["Father/Mother/Husband"] || 'N/A'}</p>
-                            </div>
-                            <div className="border-b border-slate-50 pb-2">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Date of Birth</p>
-                                <p className="font-bold text-slate-800 mt-0.5">
-                                    {customer["Date Of Birth"] ? new Date(customer["Date Of Birth"]).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : 'N/A'}
-                                </p>
-                            </div>
-                            <div className="border-b border-slate-50 pb-2">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Gender</p>
-                                <p className="font-bold text-slate-800 mt-0.5">{customer.gender || 'N/A'}</p>
-                            </div>
-                            <div className="border-b border-slate-50 pb-2 col-span-1 md:col-span-2">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Permanent Address</p>
-                                <p className="font-bold text-slate-800 mt-0.5">
-                                    {customer["Village Name"] ? `${customer["Village Name"]}, Block: ${customer["Block Name"]}, District: ${customer["District Name"]}, ${customer["State Name"]} - ${customer["Pin Code"]}` : 'N/A'}
-                                </p>
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Mobile No</p>
+                                <p className="font-bold text-brand-600 mt-0.5">{customer["Mobile No"] || customer.phone || 'N/A'}</p>
                             </div>
                             <div className="border-b border-slate-50 pb-2">
                                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Registration Date</p>
                                 <p className="font-bold text-slate-800 mt-0.5">
-                                    {customer["Registration Date"] ? new Date(customer["Registration Date"]).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : (customer.joinedDate ? new Date(customer.joinedDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'N/A')}
+                                    {(customer["Registration Date"] || customer.joinedDate) ? new Date(customer["Registration Date"] || customer.joinedDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'N/A'}
                                 </p>
                             </div>
                             <div className="border-b border-slate-50 pb-2">
                                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Created By Admin ID</p>
                                 <p className="font-bold text-slate-500 mt-0.5 truncate">{customer.created_by || 'System Bootstrap / Signup'}</p>
                             </div>
-                            <div className="border-b border-slate-50 pb-2">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">A/C Holder Name</p>
-                                <p className="font-bold text-slate-800 mt-0.5">{customer["A/C Holder Name"] || 'N/A'}</p>
-                            </div>
-                            <div className="border-b border-slate-50 pb-2">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Bank Name</p>
-                                <p className="font-bold text-slate-800 mt-0.5">{customer["Bank Name"] || 'N/A'}</p>
-                            </div>
-                            <div className="border-b border-slate-50 pb-2">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">A/C Number</p>
-                                <p className="font-bold text-slate-800 mt-0.5">{customer["A/C Number"] || 'N/A'}</p>
-                            </div>
-                            <div className="border-b border-slate-50 pb-2">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">IFSC Code</p>
-                                <p className="font-bold text-slate-800 mt-0.5">{customer["Ifsc Code"] || 'N/A'}</p>
-                            </div>
-                        </div>
-                    </Card>
-
-
-                    {/* DBT Subsidy Status */}
-                    <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl p-6">
-                        <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest mb-6 flex items-center gap-2">
-                            <CreditCard className="h-4 w-4 text-brand-500" />
-                            DBT Subsidy Status
-                        </h4>
-                        <div className="space-y-4">
-                            {/* Subsidy Eligibility Badge */}
-                            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
-                                <div>
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Eligibility Status</p>
-                                    <p className={cn(
-                                        "text-sm font-black mt-1 uppercase tracking-wider",
-                                        subsidyStatus.eligible ? 'text-green-700' : 'text-slate-400'
-                                    )}>
-                                        {subsidyStatus.eligible ? '✅ Subsidy Eligible (Farmer)' : '❌ Not Subsidy Eligible (Regular Customer)'}
-                                    </p>
-                                </div>
-                                {subsidyStatus.eligible && (
-                                    <div className="p-2 bg-green-100 rounded-xl">
-                                        <CheckCircle className="h-5 w-5 text-green-700" />
-                                    </div>
-                                )}
-                            </div>
-
-                            {subsidyStatus.eligible && (
-                                <>
-                                    {/* Card Number */}
-                                    {customer["eAnnadata Card Number"] && (
-                                        <div className="border-b border-slate-50 pb-3">
-                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Card Number</p>
-                                            <p className="font-black text-brand-600 mt-0.5 text-lg tracking-widest">{customer["eAnnadata Card Number"]}</p>
-                                        </div>
-                                    )}
-
-                                    {/* Card Registration Date & Elapsed Time */}
-                                    <div className="border-b border-slate-50 pb-3">
-                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Card Registration Date</p>
-                                        <p className="font-bold text-slate-700 mt-0.5">
-                                            {subsidyStatus.text}
-                                        </p>
-                                        {typeof subsidyStatus.years === 'number' && (
-                                            <p className="text-xs text-slate-500 font-semibold mt-1">
-                                                Card age: {subsidyStatus.years} years {subsidyStatus.months} months
-                                            </p>
-                                        )}
-                                    </div>
-
-                                    {/* Current Subsidy Tier & Rate */}
-                                    <div className="border-b border-slate-50 pb-3">
-                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Subsidy Tier</p>
-                                        <p className="font-black text-emerald-600 mt-0.5 text-lg uppercase">
-                                            {subsidyStatus.tierText}
-                                        </p>
-                                    </div>
-
-                                    {/* Card Image */}
-                                    {customer["eAnnadata Card Image"] && (
-                                        <div className="space-y-2">
-                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Card Image</p>
-                                            <a href={customer["eAnnadata Card Image"]} target="_blank" rel="noopener noreferrer" className="block">
-                                                <div className="relative rounded-xl overflow-hidden ring-1 ring-slate-200 hover:ring-brand-500 transition-all group">
-                                                    <img
-                                                        src={customer["eAnnadata Card Image"]}
-                                                        alt="eAnnadata Card"
-                                                        className="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-300"
-                                                    />
-                                                    <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                                        <ExternalLink className="h-6 w-6 text-white" />
-                                                    </div>
-                                                </div>
-                                                <p className="text-[9px] font-bold text-brand-500 uppercase tracking-widest mt-1 text-center">Click to view full image</p>
-                                            </a>
-                                        </div>
-                                    )}
-                                </>
-                            )}
                         </div>
                     </Card>
 

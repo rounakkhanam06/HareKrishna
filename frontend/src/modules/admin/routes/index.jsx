@@ -214,14 +214,10 @@ const navItems = [
   },
   {
     label: "Customers",
+    path: "/admin/customers/all",
     icon: Users,
     color: "sky",
     permissionKey: "customers",
-    children: [
-      { label: "DBT Subsidy Farmers", path: "/admin/customers/dbt" },
-      { label: "App Customers (Signup)", path: "/admin/customers/app" },
-      { label: "All Customers", path: "/admin/customers/all" },
-    ],
   },
   { label: "FAQs", path: "/admin/faqs", icon: HelpCircle, color: "pink", permissionKey: "faqs" },
   {
@@ -349,9 +345,7 @@ const AdminRoutes = () => {
         <Route path="/seller-transactions" element={hasAccess("sellerPayments") ? <SellerTransactions /> : <Navigate to="/admin" replace />} />
         <Route path="/analytics" element={hasAccess("sellerPayments") ? <AdvancedAnalytics /> : <Navigate to="/admin" replace />} />
         <Route path="/cash-collection" element={hasAccess("cashCollection") ? <CashCollection /> : <Navigate to="/admin" replace />} />
-        <Route path="/customers" element={<Navigate to="/admin/customers/dbt" replace />} />
-        <Route path="/customers/dbt" element={hasAccess("customers") ? <CustomerManagement mode="dbt" /> : <Navigate to="/admin" replace />} />
-        <Route path="/customers/app" element={hasAccess("customers") ? <CustomerManagement mode="app" /> : <Navigate to="/admin" replace />} />
+        <Route path="/customers" element={<Navigate to="/admin/customers/all" replace />} />
         <Route path="/customers/all" element={hasAccess("customers") ? <CustomerManagement mode="all" /> : <Navigate to="/admin" replace />} />
         <Route path="/customers/:id" element={hasAccess("customers") ? <CustomerDetail /> : <Navigate to="/admin" replace />} />
         <Route path="/faqs" element={hasAccess("faqs") ? <FAQManagement /> : <Navigate to="/admin" replace />} />

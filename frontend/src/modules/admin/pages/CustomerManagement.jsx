@@ -82,21 +82,7 @@ const CustomerManagement = ({ mode }) => {
     // Manual Creation Form State
     const initialCreateForm = {
         "Farmer Name": '',
-        "eAnnadata Card Number": '',
-        "eAnnadata Card Registration Date": '',
-        "Father/Mother/Husband": '',
         "Mobile No": '',
-        "Date Of Birth": '',
-        gender: 'Male',
-        "Pin Code": '',
-        "State Name": '',
-        "District Name": '',
-        "Block Name": '',
-        "Village Name": '',
-        "A/C Holder Name": '',
-        "Bank Name": '',
-        "A/C Number": '',
-        "Ifsc Code": '',
         status: 'active'
     };
 
@@ -211,9 +197,8 @@ const CustomerManagement = ({ mode }) => {
         const safeCustomers = Array.isArray(customers) ? customers : [];
         return safeCustomers.filter(c => {
             const nameSearch = (c["Farmer Name"] || c.name || '').toLowerCase().includes(searchTerm.toLowerCase());
-            const cardSearch = (c["eAnnadata Card Number"] || '').toLowerCase().includes(searchTerm.toLowerCase());
             const phoneSearch = (c["Mobile No"] || c.phone || '').includes(searchTerm);
-            const matchesSearch = nameSearch || cardSearch || phoneSearch;
+            const matchesSearch = nameSearch || phoneSearch;
             const matchesStatus = filterStatus === 'all' || c.status === filterStatus;
             return matchesSearch && matchesStatus;
         });
@@ -255,11 +240,6 @@ const CustomerManagement = ({ mode }) => {
             const capitalizedForm = {
                 ...createForm,
                 "Farmer Name": capitalizeText(createForm["Farmer Name"]),
-                "Father/Mother/Husband": capitalizeText(createForm["Father/Mother/Husband"]),
-                "State Name": capitalizeText(createForm["State Name"]),
-                "District Name": capitalizeText(createForm["District Name"]),
-                "Block Name": capitalizeText(createForm["Block Name"]),
-                "Village Name": capitalizeText(createForm["Village Name"])
             };
             const { data } = await adminApi.createUser(capitalizedForm);
             if (data.success) {
@@ -493,16 +473,7 @@ const CustomerManagement = ({ mode }) => {
                                                         {cust["Farmer Name"] || cust.name}
                                                     </p>
                                                     <div className="flex flex-wrap gap-1 mt-0.5">
-                                                        {cust["eAnnadata Card Number"] && (
-                                                            <p className="text-[10px] font-bold text-brand-600 bg-brand-50 px-1.5 py-0.5 rounded w-max">
-                                                                Card: {cust["eAnnadata Card Number"]}
-                                                            </p>
-                                                        )}
-                                                        {cust.isSubsidyEligible && (
-                                                            <p className="text-[10px] font-black text-green-700 bg-green-50 px-1.5 py-0.5 rounded w-max flex items-center gap-0.5">
-                                                                🌾 Instant Subsidy
-                                                            </p>
-                                                        )}
+
                                                     </div>
                                                     <p className="ds-body-sm text-gray-500">{cust.email || 'No email'}</p>
                                                     <div className="flex items-center gap-1.5 mt-0.5">
@@ -641,46 +612,12 @@ const CustomerManagement = ({ mode }) => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Farmer Name *</label>
+                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Customer Name *</label>
                             <input
                                 required
                                 type="text"
                                 value={createForm["Farmer Name"]}
                                 onChange={(e) => setCreateForm({ ...createForm, "Farmer Name": e.target.value.replace(/[^a-zA-Z\s]/g, '') })}
-                                className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-500/10 transition-all shadow-sm capitalize"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">eAnnadata Card Number *</label>
-                            <input
-                                required
-                                type="text"
-                                value={createForm["eAnnadata Card Number"]}
-                                onChange={(e) => setCreateForm({ ...createForm, "eAnnadata Card Number": e.target.value.replace(/\D/g, '') })}
-                                className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-500/10 transition-all shadow-sm"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Registration Date *</label>
-                            <input
-                                required
-                                type="date"
-                                value={createForm["eAnnadata Card Registration Date"]}
-                                max={new Date().toISOString().split('T')[0]}
-                                onChange={(e) => setCreateForm({ ...createForm, "eAnnadata Card Registration Date": e.target.value })}
-                                className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-500/10 transition-all shadow-sm"
-                            />
-                        </div>
-
-                        <div className="md:col-span-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Father/Mother/Husband *</label>
-                            <input
-                                required
-                                type="text"
-                                value={createForm["Father/Mother/Husband"]}
-                                onChange={(e) => setCreateForm({ ...createForm, "Father/Mother/Husband": e.target.value.replace(/[^a-zA-Z\s]/g, '') })}
                                 className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-500/10 transition-all shadow-sm capitalize"
                             />
                         </div>
@@ -695,144 +632,6 @@ const CustomerManagement = ({ mode }) => {
                                 onChange={(e) => setCreateForm({ ...createForm, "Mobile No": e.target.value.replace(/\D/g, '') })}
                                 className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-500/10 transition-all shadow-sm"
                             />
-                        </div>
-
-                        <div>
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Date of Birth *</label>
-                            <input
-                                required
-                                type="date"
-                                value={createForm["Date Of Birth"]}
-                                onChange={(e) => setCreateForm({ ...createForm, "Date Of Birth": e.target.value })}
-                                className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-500/10 transition-all shadow-sm"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Gender</label>
-                            <select
-                                value={createForm.gender}
-                                onChange={(e) => setCreateForm({ ...createForm, gender: e.target.value })}
-                                className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-500/10 transition-all shadow-sm"
-                            >
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Pin Code *</label>
-                            <input
-                                required
-                                type="text"
-                                maxLength={6}
-                                value={createForm["Pin Code"]}
-                                onChange={(e) => setCreateForm({ ...createForm, "Pin Code": e.target.value.replace(/\D/g, '') })}
-                                className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-500/10 transition-all shadow-sm"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">State Name *</label>
-                            <input
-                                required
-                                type="text"
-                                value={createForm["State Name"]}
-                                onChange={(e) => setCreateForm({ ...createForm, "State Name": e.target.value.replace(/[^a-zA-Z\s]/g, '') })}
-                                className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-500/10 transition-all shadow-sm capitalize"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">District Name *</label>
-                            <input
-                                required
-                                type="text"
-                                value={createForm["District Name"]}
-                                onChange={(e) => setCreateForm({ ...createForm, "District Name": e.target.value.replace(/[^a-zA-Z\s]/g, '') })}
-                                className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-500/10 transition-all shadow-sm capitalize"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Block Name *</label>
-                            <input
-                                required
-                                type="text"
-                                value={createForm["Block Name"]}
-                                onChange={(e) => setCreateForm({ ...createForm, "Block Name": e.target.value.replace(/[^a-zA-Z\s]/g, '') })}
-                                className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-500/10 transition-all shadow-sm capitalize"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Village Name *</label>
-                            <input
-                                required
-                                type="text"
-                                value={createForm["Village Name"]}
-                                onChange={(e) => setCreateForm({ ...createForm, "Village Name": e.target.value.replace(/[^a-zA-Z\s]/g, '') })}
-                                className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-500/10 transition-all shadow-sm capitalize"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">A/C Holder Name</label>
-                            <input
-                                type="text"
-                                value={createForm["A/C Holder Name"]}
-                                onChange={(e) => setCreateForm({ ...createForm, "A/C Holder Name": e.target.value.replace(/[^a-zA-Z\s]/g, '') })}
-                                className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-500/10 transition-all shadow-sm capitalize"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Bank Name</label>
-                            <input
-                                type="text"
-                                value={createForm["Bank Name"]}
-                                onChange={(e) => setCreateForm({ ...createForm, "Bank Name": e.target.value })}
-                                className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-500/10 transition-all shadow-sm capitalize"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">A/C Number</label>
-                            <input
-                                type="text"
-                                value={createForm["A/C Number"]}
-                                onChange={(e) => setCreateForm({ ...createForm, "A/C Number": e.target.value.replace(/\D/g, '') })}
-                                className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-500/10 transition-all shadow-sm"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">IFSC Code</label>
-                            <input
-                                type="text"
-                                value={createForm["Ifsc Code"]}
-                                onChange={(e) => {
-                                    const val = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 11);
-                                    setCreateForm({ ...createForm, "Ifsc Code": val });
-                                    if (val.length === 0) {
-                                        setIfscError('');
-                                    } else if (val.length < 11) {
-                                        setIfscError('IFSC must be exactly 11 characters');
-                                    } else {
-                                        const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
-                                        if (!ifscRegex.test(val)) {
-                                            setIfscError('Invalid IFSC format (e.g. SBIN0012345)');
-                                        } else {
-                                            setIfscError('');
-                                        }
-                                    }
-                                }}
-                                className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-500/10 transition-all shadow-sm uppercase"
-                            />
-                            {ifscError && (
-                                <p className="text-red-500 text-[10px] font-bold mt-1 pl-1">{ifscError}</p>
-                            )}
                         </div>
                     </div>
 

@@ -94,27 +94,11 @@ export const createUser = async (req, res) => {
     }
 
     const newUser = await User.create({
-      name: payload["Farmer Name"],
-      "Farmer Name": payload["Farmer Name"],
+      name: payload.name,
       phone: payload["Mobile No"],
       "Mobile No": payload["Mobile No"],
-      "eAnnadata Card Number": payload["eAnnadata Card Number"],
-      "eAnnadata Card Status": "yes",                                      // Auto-approved by admin
-      "eAnnadata Card Registration Date": payload["eAnnadata Card Registration Date"], // For DBT tier calc
-      isSubsidyEligible: true,                                             // Admin-added farmers get DBT
-      "Father/Mother/Husband": payload["Father/Mother/Husband"],
       "Date Of Birth": payload["Date Of Birth"],
       gender: payload.gender,
-      "Pin Code": payload["Pin Code"],
-      "State Name": payload["State Name"],
-      "District Name": payload["District Name"],
-      "Block Name": payload["Block Name"],
-      "Village Name": payload["Village Name"],
-      "A/C Holder Name": payload["A/C Holder Name"],
-      "Bank Name": payload["Bank Name"],
-      "A/C Number": payload["A/C Number"],
-      "Ifsc Code": payload["Ifsc Code"],
-      "Registration Date": payload["eAnnadata Card Registration Date"], // Store Excel/Form registration date in db
       status: payload.status || "active",
       isActive: payload.status !== "inactive",
       created_by: req.user.id,
@@ -170,31 +154,13 @@ export const updateUser = async (req, res) => {
     }
 
     // Apply updates
-    if (payload["Farmer Name"] !== undefined) {
-      user.name = payload["Farmer Name"];
-      user["Farmer Name"] = payload["Farmer Name"];
+    if (payload.name !== undefined) {
+      user.name = payload.name;
     }
     if (payload["Mobile No"] !== undefined) {
       user.phone = payload["Mobile No"];
       user["Mobile No"] = payload["Mobile No"];
     }
-    if (payload["eAnnadata Card Number"] !== undefined) user["eAnnadata Card Number"] = payload["eAnnadata Card Number"];
-    if (payload["eAnnadata Card Registration Date"] !== undefined) {
-      user["eAnnadata Card Registration Date"] = payload["eAnnadata Card Registration Date"];
-      user["Registration Date"] = payload["eAnnadata Card Registration Date"];
-    }
-    if (payload["Father/Mother/Husband"] !== undefined) user["Father/Mother/Husband"] = payload["Father/Mother/Husband"];
-    if (payload["Date Of Birth"] !== undefined) user["Date Of Birth"] = payload["Date Of Birth"];
-    if (payload.gender !== undefined) user.gender = payload.gender;
-    if (payload["Pin Code"] !== undefined) user["Pin Code"] = payload["Pin Code"];
-    if (payload["State Name"] !== undefined) user["State Name"] = payload["State Name"];
-    if (payload["District Name"] !== undefined) user["District Name"] = payload["District Name"];
-    if (payload["Block Name"] !== undefined) user["Block Name"] = payload["Block Name"];
-    if (payload["Village Name"] !== undefined) user["Village Name"] = payload["Village Name"];
-    if (payload["A/C Holder Name"] !== undefined) user["A/C Holder Name"] = payload["A/C Holder Name"];
-    if (payload["Bank Name"] !== undefined) user["Bank Name"] = payload["Bank Name"];
-    if (payload["A/C Number"] !== undefined) user["A/C Number"] = payload["A/C Number"];
-    if (payload["Ifsc Code"] !== undefined) user["Ifsc Code"] = payload["Ifsc Code"];
     if (payload.status !== undefined) {
       user.status = payload.status;
       user.isActive = payload.status !== "inactive";
@@ -271,7 +237,7 @@ export const bulkUploadUsers = async (req, res) => {
         const value = String(row[key]).trim();
 
         if (["farmername", "fullname", "name", "customername", "username", "customer", "user", "beneficiaryname", "beneficiary", "cardholder", "cardholdername", "membername", "member", "nameinenglish", "englishname", "canteenuser"].includes(cleanKey)) {
-          normalized["Farmer Name"] = value;
+          normalized.name = value;
         } else if (["eannadatacardnumber", "cardnumber", "eannadata_card_number", "cardno", "card", "cardno", "eannadatacard", "ennadatacard", "ennadatacardnumber", "cardid"].includes(cleanKey)) {
           normalized["eAnnadata Card Number"] = value;
         } else if (["fathermotherhusband", "fathername", "mothername", "father", "mother", "husband", "fname", "mname"].includes(cleanKey)) {
@@ -310,11 +276,11 @@ export const bulkUploadUsers = async (req, res) => {
 
 
       // Backup fallbacks for common columns if header is not exact
-      if (!normalized["Farmer Name"]) {
+      if (!normalized.name) {
         Object.keys(row).forEach((key) => {
           const cleanKey = key.trim().toLowerCase().replace(/[\s_'/]/g, "");
           if (cleanKey.includes("name") && String(row[key]).trim()) {
-            normalized["Farmer Name"] = String(row[key]).trim();
+            normalized.name = String(row[key]).trim();
           }
         });
       }
@@ -356,7 +322,7 @@ export const bulkUploadUsers = async (req, res) => {
       if (error) {
         failedRows.push({
           row: rowNum,
-          name: normalizedRow["Farmer Name"] || "Row " + rowNum,
+          name: normalizedRow.name || "Row " + rowNum,
           phone: normalizedRow["Mobile No"] || "N/A",
           reason: error.details.map((item) => item.message).join("; "),
         });
@@ -367,7 +333,7 @@ export const bulkUploadUsers = async (req, res) => {
       if (fileMobiles.has(value["Mobile No"])) {
         failedRows.push({
           row: rowNum,
-          name: value["Farmer Name"],
+          name: value.name,
           phone: value["Mobile No"],
           reason: "Duplicate Mobile No in upload file.",
         });
@@ -376,7 +342,7 @@ export const bulkUploadUsers = async (req, res) => {
       if (fileCards.has(value["eAnnadata Card Number"])) {
         failedRows.push({
           row: rowNum,
-          name: value["Farmer Name"],
+          name: value.name,
           phone: value["Mobile No"],
           reason: "Duplicate eAnnadata Card Number in upload file.",
         });
@@ -419,38 +385,20 @@ export const bulkUploadUsers = async (req, res) => {
         const phoneDup = existingPhones.has(normPhone) || existingPhones.has(row["Mobile No"]);
         const cardDup = existingCards.has(row["eAnnadata Card Number"]);
 
-        if (phoneDup || cardDup) {
+        if (phoneDup) {
           failedRows.push({
             row: row.rowNum,
-            name: row["Farmer Name"],
+            name: row.name,
             phone: row["Mobile No"],
-            reason: phoneDup
-              ? "Mobile No is already registered in database."
-              : "eAnnadata Card Number is already registered in database.",
+            reason: "Mobile No is already registered in database.",
           });
         } else {
           finalRowsToInsert.push({
-            name: row["Farmer Name"],
-            "Farmer Name": row["Farmer Name"],
+            name: row.name,
             phone: row["Mobile No"],
             "Mobile No": row["Mobile No"],
-            "eAnnadata Card Number": row["eAnnadata Card Number"],
-            "eAnnadata Card Status": "yes",                                          // Auto-approved for bulk
-            "eAnnadata Card Registration Date": row["eAnnadata Card Registration Date"], // From Excel → DBT tier
-            isSubsidyEligible: true,                                                 // Bulk-added farmers get DBT
-            "Father/Mother/Husband": row["Father/Mother/Husband"],
             "Date Of Birth": row["Date Of Birth"],
             gender: row.gender,
-            "Pin Code": row["Pin Code"],
-            "State Name": row["State Name"],
-            "District Name": row["District Name"],
-            "Block Name": row["Block Name"],
-            "Village Name": row["Village Name"],
-            "A/C Holder Name": row["A/C Holder Name"],
-            "Bank Name": row["Bank Name"],
-            "A/C Number": row["A/C Number"],
-            "Ifsc Code": row["Ifsc Code"],
-            "Registration Date": row["eAnnadata Card Registration Date"], // Store Excel/Form registration date in db
 
             status: row.status || "active",
             isActive: row.status !== "inactive",

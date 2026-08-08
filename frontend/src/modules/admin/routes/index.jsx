@@ -103,7 +103,6 @@ const ShopByStoreManagement = React.lazy(
 const AdminSettings = React.lazy(() => import("../pages/AdminSettings"));
 const EnvSettings = React.lazy(() => import("../pages/EnvSettings"));
 const AdminProfile = React.lazy(() => import("../pages/AdminProfile"));
-const RefundPayoutManagement = React.lazy(() => import("../pages/RefundPayoutManagement"));
 
 const navItems = [
   {
@@ -190,13 +189,6 @@ const navItems = [
     icon: Banknote,
     color: "cyan",
     permissionKey: "withdrawals",
-  },
-  {
-    label: "Refund Payouts",
-    path: "/admin/refund-payouts",
-    icon: RotateCcw,
-    color: "rose",
-    permissionKey: "refunds",
   },
   {
     label: "Seller Payments",
@@ -341,7 +333,7 @@ const AdminRoutes = () => {
         <Route path="/delivery-ratings" element={hasAccess("delivery") ? <DeliveryRatings /> : <Navigate to="/admin" replace />} />
         <Route path="/wallet" element={hasAccess("wallet") ? <AdminWallet /> : <Navigate to="/admin" replace />} />
         <Route path="/withdrawals" element={hasAccess("withdrawals") ? <WithdrawalRequests /> : <Navigate to="/admin" replace />} />
-        <Route path="/refund-payouts" element={hasAccess("refunds") ? <RefundPayoutManagement /> : <Navigate to="/admin" replace />} />
+
         <Route path="/seller-transactions" element={hasAccess("sellerPayments") ? <SellerTransactions /> : <Navigate to="/admin" replace />} />
         <Route path="/analytics" element={hasAccess("sellerPayments") ? <AdvancedAnalytics /> : <Navigate to="/admin" replace />} />
         <Route path="/cash-collection" element={hasAccess("cashCollection") ? <CashCollection /> : <Navigate to="/admin" replace />} />

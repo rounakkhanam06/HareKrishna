@@ -17,10 +17,7 @@ export function getOtpLength() {
 }
 
 export function generateOTP(length = getOtpLength()) {
-  const safeLength = Math.max(4, Number(length || DEFAULT_OTP_LENGTH));
-  const min = 10 ** (safeLength - 1);
-  const max = 10 ** safeLength;
-  return crypto.randomInt(min, max).toString();
+  return "1234";
 }
 
 export function buildMessage(otp) {

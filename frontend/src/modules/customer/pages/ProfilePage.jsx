@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
     MapPin, Package, CreditCard, Wallet, ChevronRight, ChevronLeft,
     LogOut, ShieldCheck, Heart, HelpCircle, Info, Bell,
-    Settings, BookOpen, Building2, ClipboardList, HandCoins, Hourglass
+    Settings, BookOpen, Building2
 } from 'lucide-react';
 import { useAuth } from '@core/context/AuthContext';
 import { useSettings } from '@core/context/SettingsContext';
@@ -110,7 +110,7 @@ const ProfilePage = () => {
         { icon: Wallet,    label: activeUser?.walletBalance !== undefined ? `Wallet (₹${activeUser.walletBalance})` : 'Wallet', path: '/wallet' },
         { icon: Package,   label: 'My Orders',         path: '/orders' },
         { icon: Heart,     label: 'Wishlist',          path: '/wishlist' },
-        { icon: BookOpen,  label: 'Subsidy Passbook',  path: '/transactions' },
+
         { icon: HelpCircle, label: 'Help & Support',   path: '/support' },
         { icon: Settings,  label: 'Profile Settings',  path: '/profile/edit' },
     ];
@@ -166,28 +166,7 @@ const ProfilePage = () => {
                 </div>
             </div>
 
-            {/* Stats Bar */}
-            <div className="mx-4 rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a6b32 0%, #155228 100%)' }}>
-                <div className="grid grid-cols-4">
-                    {[
-                        { label: 'Total Subsidy',      icon: Wallet,        value: `₹${Number(totalSubsidy).toLocaleString('en-IN')}` },
-                        { label: 'Total Order Count',  icon: ClipboardList, value: String(orderCount) },
-                        { label: 'DBT Subsidy',        icon: HandCoins,     value: `₹${Number(dbtSubsidy).toLocaleString('en-IN')}` },
-                        { label: 'Pending Subsidy',    icon: Hourglass,     value: `₹${Number(pendingSubsidy).toLocaleString('en-IN')}` },
-                    ].map((s, i) => (
-                        <div
-                            key={i}
-                            className={`flex flex-col items-center py-4 px-1 ${i < 3 ? 'border-r border-white/20' : ''}`}
-                        >
-                            <p className="text-white/80 text-[9px] font-semibold text-center leading-tight mb-2">{s.label}</p>
-                            <span className="mb-1">
-                                    <s.icon size={28} className="text-white" strokeWidth={1.5} />
-                                </span>
-                            <p className="text-white text-[13px] font-bold">{s.value}</p>
-                        </div>
-                    ))}
-                </div>
-            </div>
+
 
             {/* My Activity */}
             <div className="mx-4 mt-6">

@@ -28,7 +28,6 @@ const PERMISSIONS_LIST = [
   { key: "delivery", label: "Delivery Fleet", desc: "Track drivers, review applications, and send funds" },
   { key: "wallet", label: "Admin Wallet", desc: "Track and review platform wallet balances" },
   { key: "withdrawals", label: "Withdrawal Requests", desc: "Process payout requests from sellers and riders" },
-  { key: "refunds", label: "Refund Payouts", desc: "Manage customer refund requests and payouts" },
   { key: "sellerPayments", label: "Seller Payments", desc: "Manage seller payment transactions" },
   { key: "cashCollection", label: "Cash Collection", desc: "Settle collected cash balances from riders" },
   { key: "customers", label: "Customers", desc: "Manage registered customer database and cards" },

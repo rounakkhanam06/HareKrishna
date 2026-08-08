@@ -22,7 +22,6 @@ import mediaRoute from "./mediaRoutes.js";
 import healthRoute from "./healthRoutes.js";
 import metricsRoute from "./metricsRoutes.js";
 import authOtpRoute from "../modules/otp/otp.routes.js";
-import refundPayoutRoute from "./refundPayoutRoutes.js";
 import deliveryRatingsRoute from "./deliveryRatingsRoutes.js";
 import adminDeliveryRatingsRoute from "./adminDeliveryRatingsRoutes.js";
 import productReviewRoute from "./productReviewRoutes.js";
@@ -67,7 +66,6 @@ const setupRoutes = (app) => {
     router.use("/", experienceRoute);
     router.use("/", offerRoute);
     router.use("/", couponRoute);
-    router.use("/", refundPayoutRoute);
     router.use("/notifications", notificationRoute);
     router.use("/auth/otp", authOtpRoute);
     router.use("/push", pushRoute);

@@ -105,7 +105,7 @@ const Topbar = ({ onMenuClick }) => {
                 { keys: ['send money', 'delivery fund'], path: '/admin/delivery-funds' },
                 { keys: ['driver', 'rider'], path: '/admin/delivery-boys/active' },
                 { keys: ['money request', 'withdrawal', 'withdraw'], path: '/admin/withdrawals' },
-                { keys: ['refund payout', 'refund'], path: '/admin/refund-payouts' },
+
                 { keys: ['seller payment', 'seller transaction'], path: '/admin/seller-transactions' },
                 { keys: ['collect cash', 'cash collection'], path: '/admin/cash-collection' },
                 { keys: ['wallet', 'revenue', 'earning', 'payout', 'transaction', 'money', 'cash'], path: '/admin/wallet' },

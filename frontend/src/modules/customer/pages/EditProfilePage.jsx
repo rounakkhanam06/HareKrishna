@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, User, Mail, Phone, CreditCard, Loader2, Save } from 'lucide-react';
+import { ArrowLeft, User, Phone, Mail, MapPin, Camera, Save, Home, Briefcase, Loader2 } from 'lucide-react';
 import { customerApi } from '../services/customerApi';
 import { toast } from 'sonner';
 
@@ -13,7 +13,6 @@ const EditProfilePage = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-    const [cardNo, setCardNo] = useState('');
     const [cardStatus, setCardStatus] = useState('no');
 
     useEffect(() => {
@@ -26,7 +25,6 @@ const EditProfilePage = () => {
                     setName(data.name || data['Farmer Name'] || '');
                     setEmail(data.email || '');
                     setPhone(data.phone || data['Mobile No'] || '');
-                    setCardNo(data['eAnnadata Card Number'] || data.eannadata_card_number || '—');
                     setCardStatus(data['eAnnadata Card Status'] || data.eannadata_card_status || 'no');
                 }
             } catch (err) {
@@ -162,23 +160,8 @@ const EditProfilePage = () => {
                                         className="w-full pl-10 pr-4 py-3 bg-slate-100 border border-slate-200 rounded-2xl text-sm font-semibold text-slate-500 cursor-not-allowed focus:outline-none"
                                     />
                                 </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-[11px] font-bold text-slate-400 mb-1.5">eAnnadata Card Number</label>
-                                <div className="relative opacity-60">
-                                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                                        <CreditCard size={18} className="text-slate-400" />
-                                    </span>
-                                    <input
-                                        type="text"
-                                        value={cardNo}
-                                        disabled
-                                        className="w-full pl-10 pr-4 py-3 bg-slate-100 border border-slate-200 rounded-2xl text-sm font-semibold text-slate-500 cursor-not-allowed focus:outline-none"
-                                    />
-                                </div>
                                 <p className="text-[10px] text-slate-400 mt-1.5 font-medium leading-normal pl-1">
-                                    Card number, mobile number, and verified addresses are strictly managed by administrative staff for subsidy verification.
+                                    Mobile number and verified addresses are managed by administrative staff.
                                 </p>
                             </div>
                         </div>

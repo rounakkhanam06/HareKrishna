@@ -7,7 +7,6 @@ import LiveTrackingMap from "../components/order/LiveTrackingMap";
 import DeliveryOtpDisplay from "../components/DeliveryOtpDisplay";
 import OrderProgressTracker from "../components/order/OrderProgressTracker";
 import ReturnProgressTracker from "../components/order/ReturnProgressTracker";
-import RefundPayoutForm from "../components/RefundPayoutForm";
 import { applyCloudinaryTransform } from "@/core/utils/imageUtils";
 import {
   ChevronLeft,
@@ -149,7 +148,6 @@ const OrderDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [returnDetails, setReturnDetails] = useState(null);
   const [showReturnModal, setShowReturnModal] = useState(false);
-  const [showRefundPayoutForm, setShowRefundPayoutForm] = useState(false);
   const [requestingReturn, setRequestingReturn] = useState(false);
   const [selectedReturnItems, setSelectedReturnItems] = useState({});
   const [returnReason, setReturnReason] = useState("");
@@ -179,32 +177,6 @@ const OrderDetailPage = () => {
   // Return modal multi-step states
   const [returnModalStep, setReturnModalStep] = useState("RETURN_DETAILS"); // "RETURN_DETAILS" or "BANK_DETAILS"
   const [isReturnSubmitted, setIsReturnSubmitted] = useState(false);
-  const [showPayoutAccountNumber, setShowPayoutAccountNumber] = useState(false);
-  const [payoutMethod, setPayoutMethod] = useState("UPI");
-  const [payoutHolderName, setPayoutHolderName] = useState("");
-  const [payoutUpiId, setPayoutUpiId] = useState("");
-  const [payoutAccountNumber, setPayoutAccountNumber] = useState("");
-  const [payoutConfirmAccountNumber, setPayoutConfirmAccountNumber] = useState("");
-  const [payoutIfscCode, setPayoutIfscCode] = useState("");
-  const [payoutIfscError, setPayoutIfscError] = useState("");
-  const [payoutBankName, setPayoutBankName] = useState("");
-  const [payoutEmail, setPayoutEmail] = useState("");
-  const [payoutMobile, setPayoutMobile] = useState("");
-
-  // Pre-fill payout details
-  useEffect(() => {
-    if (order) {
-      if (order.customerName) {
-        setPayoutHolderName(order.customerName);
-      }
-      if (order.customerPhone || order.customer?.phone) {
-        setPayoutMobile(order.customerPhone || order.customer?.phone || "");
-      }
-      if (order.customerEmail || order.customer?.email) {
-        setPayoutEmail(order.customerEmail || order.customer?.email || "");
-      }
-    }
-  }, [order]);
 
   // Product review states
   const [productReviews, setProductReviews] = useState([]);
@@ -251,7 +223,6 @@ const OrderDetailPage = () => {
   useEffect(() => {
     const isAnyModalOpen =
       showReturnModal ||
-      showRefundPayoutForm ||
       showProductReviewModal ||
       showInvoice ||
       showHelp;
@@ -269,7 +240,6 @@ const OrderDetailPage = () => {
     }
   }, [
     showReturnModal,
-    showRefundPayoutForm,
     showProductReviewModal,
     showInvoice,
     showHelp,
@@ -863,91 +833,15 @@ const OrderDetailPage = () => {
     return true;
   };
 
-  const validateIfscCode = (value) => {
-    const val = (value || "").trim().toUpperCase();
-    if (!val) {
-      return "IFSC Code is required";
-    }
-    const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
-    if (!ifscRegex.test(val)) {
-      return "Enter a valid IFSC code (e.g. SBIN0001234)";
-    }
-    return "";
-  };
-
-  const validatePayoutDetails = () => {
-    if (!payoutHolderName.trim()) {
-      toast.error("Account holder name is required");
-      return false;
-    }
-    const nameRegex = /^[a-zA-Z0-9\s.]{2,100}$/;
-    if (!nameRegex.test(payoutHolderName.trim())) {
-      toast.error("Enter a valid account holder name (2-100 chars, alphanumeric, spaces and dots only)");
-      return false;
-    }
-
-    if (payoutEmail.trim()) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(payoutEmail.trim())) {
-        toast.error("Enter a valid email address");
-        return false;
-      }
-    }
-
-    if (payoutMobile.trim()) {
-      const mobileRegex = /^\+?[0-9]{10,15}$/;
-      if (!mobileRegex.test(payoutMobile.trim())) {
-        toast.error("Enter a valid mobile number (10-15 digits)");
-        return false;
-      }
-    }
-
-    if (payoutMethod === "UPI") {
-      if (!payoutUpiId.trim()) {
-        toast.error("UPI ID is required");
-        return false;
-      }
-      const upiRegex = /^[a-zA-Z0-9._\-]{2,256}@[a-zA-Z]{2,64}$/;
-      if (!upiRegex.test(payoutUpiId.trim().toLowerCase())) {
-        toast.error("Enter a valid UPI ID (e.g. name@bank)");
-        return false;
-      }
-    } else {
-      if (!payoutAccountNumber.trim()) {
-        toast.error("Bank account number is required");
-        return false;
-      }
-      const accountRegex = /^\d{9,18}$/;
-      if (!accountRegex.test(payoutAccountNumber.trim())) {
-        toast.error("Account number must be 9-18 digits");
-        return false;
-      }
-      if (payoutAccountNumber.trim() !== payoutConfirmAccountNumber.trim()) {
-        toast.error("Account numbers do not match");
-        return false;
-      }
-      const ifscErr = validateIfscCode(payoutIfscCode);
-      if (ifscErr) {
-        setPayoutIfscError(ifscErr);
-        toast.error(ifscErr);
-        return false;
-      }
-    }
-    return true;
-  };
 
   const handleCloseReturnModal = () => {
     if (requestingReturn) return;
-    if (isReturnSubmitted) {
-      toast.warning("Return request created, but refund payout details were not submitted. Click 'Manage Refund Payout Details' to add them.");
-    }
     setShowReturnModal(false);
   };
 
   const handleReturnSubmit = async () => {
     if (!order) return;
     if (!validateReturnDetails()) return;
-    if (!validatePayoutDetails()) return;
 
     const returnPayload = {
       items: Object.entries(selectedReturnItems).map(([idx, val]) => ({
@@ -959,22 +853,6 @@ const OrderDetailPage = () => {
       conditionAssurance: returnConditionAssurance,
       images: returnImages,
     };
-
-    const payoutPayload = {
-      refundMethod: payoutMethod,
-      accountHolderName: payoutHolderName.trim(),
-      mobile: payoutMobile.trim() || undefined,
-      email: payoutEmail.trim() || undefined,
-    };
-
-    if (payoutMethod === "UPI") {
-      payoutPayload.upiId = payoutUpiId.trim().toLowerCase();
-    } else {
-      payoutPayload.accountNumber = payoutAccountNumber.trim();
-      payoutPayload.confirmAccountNumber = payoutConfirmAccountNumber.trim();
-      payoutPayload.ifscCode = payoutIfscCode.trim().toUpperCase();
-      payoutPayload.bankName = payoutBankName.trim() || undefined;
-    }
 
     try {
       setRequestingReturn(true);
@@ -989,10 +867,7 @@ const OrderDetailPage = () => {
         setIsReturnSubmitted(true);
       }
 
-      // 2. Submit refund payout details
-      await customerApi.submitRefundPayoutDetails(order.orderId, payoutPayload);
-
-      toast.success("Return request and refund payout details submitted successfully.");
+      toast.success("Return request submitted successfully.");
       setShowReturnModal(false);
 
       // Reset modal fields
@@ -1896,18 +1771,6 @@ const OrderDetailPage = () => {
                       </p>
                     </div>
                   )}
-
-                {returnDetails.returnStatus !== "refund_completed" && (
-                  <div className="mt-4 pt-3 border-t border-slate-100">
-                    <button
-                      onClick={() => setShowRefundPayoutForm(true)}
-                      className="w-full py-3 rounded-2xl bg-primary hover:opacity-90 text-primary-foreground text-sm font-bold shadow-md shadow-brand-100 transition-all flex items-center justify-center gap-2 active:scale-95"
-                    >
-                      <Shield size={16} />
-                      Manage Refund Payout Details
-                    </button>
-                  </div>
-                )}
               </div>
             ) : (
               <p className="text-sm text-slate-500 mb-4 bg-slate-50 p-3 rounded-xl border border-slate-100">
@@ -2324,17 +2187,6 @@ const OrderDetailPage = () => {
         </div>
       )}
 
-      {/* Refund Payout Details Portal Modal */}
-      {showRefundPayoutForm && (
-        <RefundPayoutForm
-          order={order}
-          onClose={() => setShowRefundPayoutForm(false)}
-          onSuccess={(record) => {
-            customerApi.getOrderDetails(orderId).then(res => setOrder(res.data.result));
-            customerApi.getReturnDetails(resolveOrderLookupId(order)).then(res => setReturnDetails(res.data.result));
-          }}
-        />
-      )}
 
       {/* Product Review Submission Modal */}
       {showProductReviewModal && selectedProductReviewItem && (

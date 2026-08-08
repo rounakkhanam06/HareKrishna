@@ -132,13 +132,7 @@ export const customerApi = {
     axiosInstance.post("/payments/create-order", data),
   verifyPaymentStatus: (id) => axiosInstance.get(`/payments/status/${id}`),
 
-  // Refund Payouts
-  submitRefundPayoutDetails: (orderId, data) =>
-    axiosInstance.post(`/refund-payouts/${orderId}`, data),
-  updateRefundPayoutDetails: (orderId, data) =>
-    axiosInstance.patch(`/refund-payouts/${orderId}`, data),
-  getRefundPayoutStatus: (orderId) =>
-    axiosInstance.get(`/refund-payouts/${orderId}/status`),
+
 
   // Support & Reviews
   submitReview: (data) => axiosInstance.post("/reviews/submit", data),

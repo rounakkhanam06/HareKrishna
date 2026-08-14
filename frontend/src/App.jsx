@@ -9,6 +9,7 @@ import SkeletonPage from './shared/components/ui/Skeleton';
 import ErrorBoundary from './shared/components/ErrorBoundary';
 import LenisScroll from './shared/components/LenisScroll';
 import NetworkStatusListener from './shared/components/NetworkStatusListener';
+import GlobalSplash from './shared/components/ui/GlobalSplash';
 
 import GoogleTranslateLoader from './shared/components/GoogleTranslateLoader';
 
@@ -21,12 +22,14 @@ function App() {
                     <SeoHead />
                     <ToastProvider>
                         <NetworkStatusListener />
-                        <Suspense fallback={<SkeletonPage />}>
-                            <SupportUnreadProvider>
-                                <LenisScroll />
-                                <AppRouter />
-                            </SupportUnreadProvider>
-                        </Suspense>
+                        <GlobalSplash>
+                            <Suspense fallback={<SkeletonPage />}>
+                                <SupportUnreadProvider>
+                                    <LenisScroll />
+                                    <AppRouter />
+                                </SupportUnreadProvider>
+                            </Suspense>
+                        </GlobalSplash>
                     </ToastProvider>
                 </SettingsProvider>
             </AuthProvider>

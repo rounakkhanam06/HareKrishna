@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { ChevronLeft, Heart, Search, Minus, Plus, LayoutGrid } from 'lucide-react';
+import { ChevronLeft, Heart, Search, Minus, Plus, LayoutGrid, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -155,7 +155,12 @@ const CategoryProductsPage = () => {
             </header>
 
             <div className="flex flex-1 relative items-start">
-                {(safeProducts.length === 0 && !isLoading) ? (
+                {isLoading ? (
+                    <div className="w-full flex-1 py-32 flex flex-col items-center justify-center">
+                        <Loader2 className="w-10 h-10 animate-spin text-primary mb-4" />
+                        <p className="text-slate-400 font-medium text-sm animate-pulse">Loading products...</p>
+                    </div>
+                ) : (safeProducts.length === 0) ? (
                     <div className="w-full flex-1 py-20 px-8 flex flex-col items-center justify-center text-center">
                         <div className="w-64 h-64 mb-6">
                             {noServiceData ? (

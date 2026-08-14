@@ -573,6 +573,7 @@ const MainLocationHeader = ({
                 display: displayContent,
                 overflow: showNotifications ? "visible" : undefined,
                 overflowY: showNotifications ? undefined : "hidden",
+                overflowX: showNotifications ? "visible" : "hidden",
               }}
               className={`relative ${showNotifications ? 'z-50' : 'z-10'}`}>
               <div className="mb-1">
@@ -583,8 +584,8 @@ const MainLocationHeader = ({
                   {appName}
                 </span>
               </div>
-              <div className="flex justify-between items-center">
-                <div className="flex flex-col">
+              <div className="flex justify-between items-center w-full">
+                <div className="flex flex-col min-w-0 flex-1 pr-2">
                   <div className="flex items-center gap-1.5 mb-0.5">
                     <AccessTimeIcon sx={{ fontSize: 16, color: headerFontColor }} />
                     <span 
@@ -600,10 +601,12 @@ const MainLocationHeader = ({
                     data-lenis-prevent-touch
                     onClick={() => {
                       setIsLocationOpen(true);
-                    }}                     className="flex items-center gap-1 text-slate-800 cursor-pointer group active:scale-95 transition-transform border-0 bg-transparent p-0 text-left">
-                    <LocationOnIcon sx={{ fontSize: 14, color: headerFontColor }} />
+                    }}
+                    className="flex items-center gap-1 text-slate-800 cursor-pointer group active:scale-95 transition-transform border-0 bg-transparent p-0 text-left max-w-full overflow-hidden"
+                  >
+                    <LocationOnIcon sx={{ fontSize: 14, color: headerFontColor, flexShrink: 0 }} />
                     <div 
-                      className="text-[10px] font-medium leading-tight max-w-[200px] truncate"
+                      className="text-[10px] font-medium leading-tight truncate"
                       style={{ color: headerFontColor }}
                     >
                       {isFetchingLocation
@@ -611,7 +614,7 @@ const MainLocationHeader = ({
                         : currentLocation.name}
                     </div>
                     <ChevronDownIcon
-                      sx={{ fontSize: 12, opacity: 0.5, color: headerFontColor }}
+                      sx={{ fontSize: 12, opacity: 0.5, color: headerFontColor, flexShrink: 0 }}
                     />
                   </button>
                 </div>

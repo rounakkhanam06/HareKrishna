@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useInViewAnimation } from "@/core/hooks/useInViewAnimation";
-import { Sparkles, Heart, Snowflake, ChevronLeft, ChevronRight } from "lucide-react";
+import { Sparkles, Heart, Snowflake, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 
 // MUI Icons (shared with admin & icon selector)
 import HomeIcon from "@mui/icons-material/Home";
@@ -409,7 +409,12 @@ const Home = () => {
         <MainLocationHeader categories={categories} activeCategory={activeCategory} onCategorySelect={setActiveCategory} />
       </div>
 
-      {products.length === 0 && !isLoading ? (
+      {isLoading ? (
+        <div className="flex flex-col items-center justify-center pt-32 pb-48">
+          <Loader2 className="w-10 h-10 animate-spin text-primary mb-4" />
+          <p className="text-slate-400 font-medium text-sm animate-pulse">Loading home...</p>
+        </div>
+      ) : products.length === 0 ? (
         <div className="flex flex-col items-center justify-center pt-24 pb-48">
           <div className="w-64 h-64 md:w-96 md:h-96 mb-8">{noServiceData && <Lottie animationData={noServiceData} loop={true} />}</div>
           <h3 className="text-3xl md:text-5xl font-black text-slate-800 text-center uppercase">Service <span className="text-primary">Unavailable</span></h3>

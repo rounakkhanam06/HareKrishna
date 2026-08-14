@@ -27,24 +27,19 @@ async function run() {
         const Product = (await import('./app/models/product.js')).default;
         
         const images = {
-            banana: "C:\\Users\\admin\\.gemini\\antigravity-ide\\brain\\88df521e-441c-46b1-98b7-b53fc3f06ce3\\banana_product_1786688851197.jpg",
-            guava: "C:\\Users\\admin\\.gemini\\antigravity-ide\\brain\\88df521e-441c-46b1-98b7-b53fc3f06ce3\\guava_product_1786689157687.jpg",
-            apple: "C:\\Users\\admin\\.gemini\\antigravity-ide\\brain\\88df521e-441c-46b1-98b7-b53fc3f06ce3\\apple_product_1786689271164.jpg"
+            saunf: "C:\\Users\\admin\\.gemini\\antigravity-ide\\brain\\88df521e-441c-46b1-98b7-b53fc3f06ce3\\saunf_seeds_1786690572627.jpg",
+            cardamom: "C:\\Users\\admin\\.gemini\\antigravity-ide\\brain\\88df521e-441c-46b1-98b7-b53fc3f06ce3\\green_cardamom_1786690638234.jpg",
         };
         
-        console.log("Uploading banana image...");
-        const bananaUrl = await uploadFile(images.banana);
-        console.log("Uploading guava image...");
-        const guavaUrl = await uploadFile(images.guava);
-        console.log("Uploading apple image...");
-        const appleUrl = await uploadFile(images.apple);
+        console.log("Uploading Saunf Seeds image...");
+        const saunfUrl = await uploadFile(images.saunf);
+        console.log("Uploading Green Cardamom image...");
+        const cardamomUrl = await uploadFile(images.cardamom);
         
-        console.log("Updating Banana product...");
-        await Product.updateMany({ name: { $regex: /banana/i } }, { mainImage: bananaUrl });
-        console.log("Updating Guava product...");
-        await Product.updateMany({ name: { $regex: /guava/i } }, { mainImage: guavaUrl });
-        console.log("Updating Apple product...");
-        await Product.updateMany({ name: { $regex: /apple/i } }, { mainImage: appleUrl });
+        console.log("Updating Saunf product...");
+        await Product.updateMany({ name: { $regex: /saunt|saunf/i } }, { mainImage: saunfUrl });
+        console.log("Updating Cardamom product...");
+        await Product.updateMany({ name: { $regex: /cardamom|elaichi/i } }, { mainImage: cardamomUrl });
         
         console.log("Images successfully updated!");
         

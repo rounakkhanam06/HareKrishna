@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useLocation as useRouterLocation } from 'react-router-dom';
-import { Search, Mic, ArrowLeft, X, TrendingUp, ChevronRight, History } from 'lucide-react';
+import { Search, Mic, ArrowLeft, X, TrendingUp, ChevronRight, History, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { customerApi } from '../services/customerApi';
 import ProductCard from '../components/shared/ProductCard';
@@ -284,7 +284,12 @@ const SearchPage = () => {
                             <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{results.length} found</span>
                         </div>
 
-                        {results.length > 0 ? (
+                        {isLoading && allProducts.length === 0 ? (
+                            <div className="py-16 flex flex-col items-center justify-center text-center">
+                                <Loader2 className="w-10 h-10 animate-spin text-primary mb-4" />
+                                <span className="text-sm font-medium text-slate-400 animate-pulse">Searching products...</span>
+                            </div>
+                        ) : results.length > 0 ? (
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-3 md:gap-x-4 gap-y-6 md:gap-y-10">
                                 {results.map((product) => (
                                     <div key={product.id} onClick={() => saveSearch(query)} className="flex justify-center">
@@ -349,9 +354,10 @@ const SearchPage = () => {
                             </div>
                             <div className="flex gap-2 md:gap-4 overflow-x-auto no-scrollbar -mx-5 px-5 pb-3 snap-x">
                                 {isLoading && allProducts.length === 0 ? (
-                                    [...Array(4)].map((_, i) => (
-                                        <div key={i} className="min-w-[126px] sm:min-w-[136px] md:min-w-[148px] h-52 md:h-64 bg-slate-50 rounded-2xl animate-pulse" />
-                                    ))
+                                    <div className="w-full flex flex-col items-center justify-center py-12 min-w-full">
+                                        <Loader2 className="w-8 h-8 animate-spin text-primary mb-3" />
+                                        <span className="text-xs font-medium text-slate-400 animate-pulse">Loading best prices...</span>
+                                    </div>
                                 ) : lowestPriceProducts.map((product) => (
                                     <div key={product.id} className="min-w-[126px] sm:min-w-[136px] md:min-w-[148px] snap-start">
                                         <ProductCard product={product} compact={isMobile} />

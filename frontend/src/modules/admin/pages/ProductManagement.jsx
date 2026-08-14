@@ -797,7 +797,6 @@ const ProductManagement = () => {
                                             <select
                                                 value={formData.status}
                                                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                                                disabled
                                                 className="w-full bg-transparent border-none text-xs font-bold text-brand-700 outline-none p-0 cursor-pointer disabled:opacity-80"
                                             >
                                                 <option value="active">PUBLISHED</option>
@@ -810,7 +809,6 @@ const ProductManagement = () => {
                                                 type="checkbox"
                                                 checked={formData.isFeatured}
                                                 onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
-                                                disabled
                                                 className="h-4 w-4 rounded border-brand-300 text-primary focus:ring-primary disabled:opacity-80"
                                             />
                                         </div>
@@ -827,7 +825,6 @@ const ProductManagement = () => {
                                                     <input
                                                         value={formData.name}
                                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                                        disabled
                                                         className="w-full px-4 py-2.5 bg-slate-100 border-none rounded-xl text-sm font-semibold outline-none ring-primary/5 focus:ring-2 disabled:opacity-75"
                                                         placeholder="e.g. Premium Basmati Rice"
                                                     />
@@ -839,7 +836,6 @@ const ProductManagement = () => {
                                                         <input
                                                             value={formData.slug}
                                                             onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                                                            disabled
                                                             className="flex-1 bg-transparent border-none text-sm text-slate-500 font-semibold outline-none disabled:opacity-75"
                                                             placeholder="premium-basmati-rice"
                                                         />
@@ -853,7 +849,6 @@ const ProductManagement = () => {
                                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                                     onWheel={(e) => e.stopPropagation()}
                                                     onTouchMove={(e) => e.stopPropagation()}
-                                                    disabled
                                                     className="w-full px-4 py-3 bg-slate-100 border-none rounded-2xl text-sm font-semibold min-h-[160px] max-h-[260px] outline-none resize-none overflow-y-auto custom-scrollbar disabled:opacity-75"
                                                     placeholder="Describe the item here..."
                                                 />
@@ -864,7 +859,6 @@ const ProductManagement = () => {
                                                     <input
                                                         value={formData.brand}
                                                         onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-                                                        disabled
                                                         className="w-full px-4 py-2.5 bg-slate-100 border-none rounded-xl text-sm font-semibold outline-none ring-primary/5 focus:ring-2 disabled:opacity-75"
                                                         placeholder="e.g. Amul"
                                                     />
@@ -874,7 +868,6 @@ const ProductManagement = () => {
                                                     <input
                                                         value={formData.sku}
                                                         onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
-                                                        disabled
                                                         className="w-full px-4 py-2.5 bg-slate-100 border-none rounded-xl text-sm font-mono font-bold outline-none ring-primary/5 focus:ring-2 disabled:opacity-75"
                                                         placeholder="AUTO-GENERATED"
                                                     />
@@ -891,7 +884,6 @@ const ProductManagement = () => {
                                                     <select
                                                         value={formData.header}
                                                         onChange={(e) => setFormData({ ...formData, header: e.target.value, categoryId: '', subcategoryId: '' })}
-                                                        disabled
                                                         className="w-full px-4 py-2.5 bg-slate-100 border-none rounded-xl text-sm font-bold outline-none cursor-pointer disabled:opacity-75"
                                                     >
                                                         <option value="">Select Main Group</option>
@@ -903,7 +895,6 @@ const ProductManagement = () => {
                                                     <select
                                                         value={formData.categoryId}
                                                         onChange={(e) => setFormData({ ...formData, categoryId: e.target.value, subcategoryId: '' })}
-                                                        disabled
                                                         className="w-full px-4 py-2.5 bg-slate-100 border-none rounded-xl text-sm font-bold outline-none cursor-pointer disabled:opacity-75"
                                                     >
                                                         <option value="">Select Category</option>
@@ -918,7 +909,6 @@ const ProductManagement = () => {
                                                 <select
                                                     value={formData.subcategoryId}
                                                     onChange={(e) => setFormData({ ...formData, subcategoryId: e.target.value })}
-                                                    disabled
                                                     className="w-full px-4 py-2.5 bg-slate-100 border-none rounded-xl text-sm font-bold outline-none cursor-pointer disabled:opacity-75"
                                                 >
                                                     <option value="">Select Sub-Category</option>
@@ -948,7 +938,6 @@ const ProductManagement = () => {
                                                                         news[i].name = e.target.value;
                                                                         setFormData({ ...formData, variants: news });
                                                                     }}
-                                                                    disabled
                                                                     placeholder="500g"
                                                                     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm outline-none ring-0 focus:border-primary/40 focus:ring-2 focus:ring-primary/10 disabled:opacity-75"
                                                                 />
@@ -963,7 +952,6 @@ const ProductManagement = () => {
                                                                         news[i].price = e.target.value;
                                                                         setFormData({ ...formData, variants: news });
                                                                     }}
-                                                                    disabled
                                                                     placeholder="200"
                                                                     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm outline-none ring-0 focus:border-primary/40 focus:ring-2 focus:ring-primary/10 disabled:opacity-75"
                                                                 />
@@ -978,7 +966,6 @@ const ProductManagement = () => {
                                                                         news[i].salePrice = e.target.value;
                                                                         setFormData({ ...formData, variants: news });
                                                                     }}
-                                                                    disabled
                                                                     placeholder="150"
                                                                     className="w-full rounded-xl border border-brand-200 bg-brand-50/60 px-4 py-2.5 text-sm outline-none ring-0 focus:border-brand-300 focus:ring-2 focus:ring-brand-100 disabled:opacity-75"
                                                                 />
@@ -996,7 +983,6 @@ const ProductManagement = () => {
                                                                         news[i].stock = val;
                                                                         setFormData({ ...formData, variants: news });
                                                                     }}
-                                                                    disabled
                                                                     placeholder="50"
                                                                     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm outline-none ring-0 focus:border-primary/40 focus:ring-2 focus:ring-primary/10 disabled:opacity-75"
                                                                 />
@@ -1011,7 +997,6 @@ const ProductManagement = () => {
                                                                             news[i].sku = e.target.value;
                                                                             setFormData({ ...formData, variants: news });
                                                                         }}
-                                                                        disabled
                                                                         placeholder="mango-001"
                                                                         className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm outline-none ring-0 focus:border-primary/40 focus:ring-2 focus:ring-primary/10 disabled:opacity-75"
                                                                     />
@@ -1052,6 +1037,16 @@ const ProductManagement = () => {
                                                         formData.galleryImages.map((image, index) => (
                                                             <div key={`${image}-${index}`} className="group relative aspect-square rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 shadow-sm">
                                                                 <img src={applyCloudinaryTransform(image, "f_auto,q_auto,w_300")} alt={`Gallery ${index + 1}`} className="h-full w-full object-cover" />
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => {
+                                                                        const newGallery = formData.galleryImages.filter((_, i) => i !== index);
+                                                                        setFormData({ ...formData, galleryImages: newGallery });
+                                                                    }}
+                                                                    className="absolute top-2 right-2 p-1.5 bg-white text-rose-500 rounded-full opacity-0 group-hover:opacity-100 hover:scale-110 transition-all shadow-md z-20"
+                                                                >
+                                                                    <HiOutlineTrash className="w-4 h-4" />
+                                                                </button>
                                                             </div>
                                                         ))
                                                     ) : (

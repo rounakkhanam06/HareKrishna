@@ -418,7 +418,7 @@ const Home = () => {
         </div>
       ) : (
         <>
-          <motion.div ref={heroRef} className="block will-change-transform" style={isMobile ? { opacity: 1 } : { opacity, y, scale, pointerEvents }}>
+          <div ref={heroRef} className="block">
             <div className="relative w-full overflow-hidden">
               {heroConfig.banners?.items?.length ? (
                 <ExperienceBannerCarousel section={{ title: "" }} items={heroConfig.banners.items} fullWidth edgeToEdge />
@@ -432,7 +432,7 @@ const Home = () => {
                 </div>
               )}
             </div>
-          </motion.div>
+          </div>
 
           <QuickCategorySlider categories={effectiveQuickCategories} onCategoryClick={(id) => navigate(`/category/${id}`)} />
           <LowestPriceSection products={products} onSeeAll={() => navigate("/category/all")} />

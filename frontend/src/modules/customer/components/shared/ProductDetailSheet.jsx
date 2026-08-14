@@ -1352,9 +1352,9 @@ const ProductDetailSheet = () => {
                         </div>
 
                         {/* Sticky Bottom Action Bar */}
-                        <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 pb-6 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] z-50">
-                            <div className="flex flex-col gap-3">
-                                <div className="flex items-center justify-between gap-4">
+                        <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-3 pb-5 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] z-50">
+                            <div className="flex flex-row items-center gap-3">
+                                <div className="flex flex-1 items-center justify-center">
 
                                     {isOutOfStock ? (
                                         <motion.button
@@ -1363,31 +1363,31 @@ const ProductDetailSheet = () => {
                                             onClick={handleNotifyMe}
                                             disabled={isNotified || isNotifying}
                                             className={cn(
-                                                "flex-1 h-[56px] rounded-2xl font-black text-sm flex items-center justify-center gap-2 transition-all border uppercase tracking-[0.05em] whitespace-nowrap px-4",
+                                                "w-full h-11 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all border uppercase tracking-wider px-4",
                                                 isNotified
                                                     ? "bg-emerald-50 border-emerald-300 text-emerald-600 cursor-default"
-                                                    : "bg-gradient-to-r from-primary to-[var(--brand-400)] text-white shadow-xl shadow-brand-100 border-white/20 cursor-pointer"
+                                                    : "bg-gradient-to-r from-primary to-[var(--brand-400)] text-white shadow-md shadow-brand-100 border-white/20 cursor-pointer"
                                             )}
                                         >
-                                            <Bell size={18} strokeWidth={3} />
+                                            <Bell size={16} strokeWidth={2.5} />
                                             {isNotifying ? "..." : isNotified ? "Requested" : "Notify Me"}
                                         </motion.button>
                                     ) : quantity > 0 ? (
-                                        <div className="flex items-center gap-1 bg-slate-50 border-2 border-slate-100 rounded-2xl p-1.5 shadow-inner flex-1 justify-between max-w-[170px]">
+                                        <div className="flex items-center w-full gap-1 bg-slate-50 border border-slate-100 rounded-xl p-1 shadow-inner h-11 justify-between">
                                             <motion.button
                                                 whileTap={{ scale: 0.9 }}
                                                 onClick={handleDecrement}
-                                                className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-white shadow-sm border border-slate-100 transition-all"
+                                                className="w-9 h-9 bg-white rounded-lg flex items-center justify-center text-slate-400 hover:text-red-500 shadow-sm border border-slate-100 transition-all"
                                             >
-                                                <Minus size={18} strokeWidth={3.5} />
+                                                <Minus size={16} strokeWidth={3} />
                                             </motion.button>
-                                            <span className="font-black text-xl text-slate-800 w-8 text-center tabular-nums">{quantity}</span>
+                                            <span className="font-black text-sm text-slate-800 w-8 text-center tabular-nums">{quantity}</span>
                                             <motion.button
                                                 whileTap={{ scale: 0.9 }}
                                                 onClick={handleIncrement}
-                                                className="w-10 h-10 bg-gradient-to-br from-primary to-[var(--brand-400)] rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-100/50 hover:shadow-brand-200 transition-all border border-white/20"
+                                                className="w-9 h-9 bg-gradient-to-br from-primary to-[var(--brand-400)] rounded-lg flex items-center justify-center text-white shadow-sm shadow-brand-100/50 transition-all border border-white/20"
                                             >
-                                                <Plus size={18} strokeWidth={3.5} />
+                                                <Plus size={16} strokeWidth={3} />
                                             </motion.button>
                                         </div>
                                     ) : (
@@ -1395,9 +1395,14 @@ const ProductDetailSheet = () => {
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.95 }}
                                             onClick={handleAddToCart}
-                                            className="flex-1 bg-gradient-to-r from-primary to-[var(--brand-400)] text-white h-[56px] rounded-2xl font-black text-sm flex items-center justify-center gap-2 shadow-xl shadow-brand-100 transition-all border border-white/20 uppercase tracking-[0.05em] whitespace-nowrap px-4"
+                                            className={cn(
+                                                "w-full h-11 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all uppercase tracking-wider px-4",
+                                                cartCount > 0
+                                                    ? "bg-brand-50 text-primary border border-brand-200"
+                                                    : "bg-gradient-to-r from-primary to-[var(--brand-400)] text-white shadow-md shadow-brand-100 border border-white/20"
+                                            )}
                                         >
-                                            <ShoppingBag size={18} strokeWidth={3} />
+                                            <ShoppingBag size={16} strokeWidth={2.5} />
                                             ADD TO CART
                                         </motion.button>
                                     )}
@@ -1408,20 +1413,20 @@ const ProductDetailSheet = () => {
                                     <motion.div
                                         initial={{ opacity: 0, scale: 0.95 }}
                                         animate={{ opacity: 1, scale: 1 }}
-                                        className="mt-2"
+                                        className="flex-1"
                                     >
                                         <Link
                                             to="/checkout"
                                             onClick={closeProduct}
-                                            className="w-full bg-gradient-to-r from-primary to-[var(--brand-400)] text-white h-[64px] rounded-2xl flex items-center justify-between px-5 shadow-xl shadow-brand-200/50 hover:shadow-brand-300 transition-all active:scale-[0.98] border border-white/20 relative overflow-hidden group"
+                                            className="w-full bg-gradient-to-r from-primary to-[var(--brand-400)] text-white h-11 rounded-xl flex items-center justify-between px-3 shadow-md shadow-brand-200/50 hover:shadow-brand-300 transition-all active:scale-[0.98] border border-white/20"
                                         >
-                                            <div className="flex flex-col items-start leading-none">
-                                                <span className="text-[13px] font-[1000] uppercase tracking-wide">View cart</span>
-                                                <span className="text-[11px] font-bold opacity-90 mt-1">{cartCount} {cartCount === 1 ? 'item' : 'items'} in cart</span>
+                                            <div className="flex flex-col items-start justify-center">
+                                                <span className="text-[10px] font-black uppercase tracking-wider leading-tight">View cart</span>
+                                                <span className="text-[9px] font-bold opacity-90 leading-tight">{cartCount} {cartCount === 1 ? 'item' : 'items'}</span>
                                             </div>
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-[16px] font-[1000] tracking-tight">₹{cart.reduce((total, item) => total + ((item.salePrice || item.price) * item.quantity), 0)}</span>
-                                                <ChevronRight size={18} strokeWidth={4} />
+                                            <div className="flex items-center gap-1">
+                                                <span className="text-[12px] font-black tracking-tight">₹{cart.reduce((total, item) => total + ((item.salePrice || item.price) * item.quantity), 0)}</span>
+                                                <ChevronRight size={14} strokeWidth={3} />
                                             </div>
                                         </Link>
                                     </motion.div>

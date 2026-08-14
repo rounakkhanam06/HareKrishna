@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { ChevronLeft, Heart, Search, Minus, Plus } from 'lucide-react';
+import { ChevronLeft, Heart, Search, Minus, Plus, LayoutGrid } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -196,7 +196,11 @@ const CategoryProductsPage = () => {
                                         "w-14 h-14 rounded-2xl flex items-center justify-center p-1.5 transition-all duration-300",
                                         selectedSubCategory === cat.id ? "scale-110" : "opacity-100"
                                     )}>
-                                        <img src={applyCloudinaryTransform(cat.icon)} alt={cat.name} loading="lazy" className="w-full h-full object-contain" />
+                                        {cat.id === 'all' ? (
+                                            <LayoutGrid size={28} className={selectedSubCategory === cat.id ? "text-primary" : "text-slate-400"} strokeWidth={2.5} />
+                                        ) : (
+                                            <img src={applyCloudinaryTransform(cat.icon)} alt={cat.name} loading="lazy" className="w-full h-full object-contain" />
+                                        )}
                                     </div>
                                     <span className={cn(
                                         "text-[10px] text-center font-bold font-sans leading-tight px-1",

@@ -126,7 +126,7 @@ const ProfilePage = () => {
                 >
                     <ChevronLeft size={26} className="text-slate-800" />
                 </button>
-                <h1 className="text-[17px] font-bold text-slate-900">Farmer Dashboard</h1>
+                <h1 className="text-[17px] font-bold text-slate-900">MY Profile</h1>
                 <button
                     onClick={handleTestPush}
                     disabled={isTestingPush}
